@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ player_data.name }}</h1>
+<table>
+	<tr>
+		<th>Year</th>
+		<th>G</th>
+		<th>AB</th>
+		<th>H</th>
+		<th>R</th>
+		<th>2B</th>
+		<th>3B</th>
+		<th>HR</th>
+		<th>RBI</th>
+		<th>SB</th>
+	</tr>
+	{% for row in player_stats %}
+		<td>{{ row.G }}
+		<td>{{ row.AB }}</td>
+		<td>{{ row.H }}</td>
+		<td>{{ row.R }}</td>
+		<td>{{ row.doubles }}</td>
+		<td>{{ row.triples }}</td>
+		<td>{{ row.HR }}</td>
+		<td>{{ row.RBI }}</td>
+		<td>{{ row.SB }}</td>
+	</tr>
+	{% endfor %}
+	<!-- put out career/career 162, projected/proj162 -->
+</table>
+{% endblock %}

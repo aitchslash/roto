@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		{% if title %}
+		<title>{{ title }} </title>
+		{% else %}
+		<title>Welcome to Project 3</title>
+		{% endif %}
+		<meta charset="utf-8">
+		<meta name="description" content="Project for Udacity's Full Stack Program">
+	</head>
+	<body>
+		<div>Rotostar <a href="/index">Home</a></div>
+		<hr>
+		{% block content %}{% endblock %}
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="{{
+  		url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+	</body>
+</html>
