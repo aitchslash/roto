@@ -1,45 +1,4 @@
-// var career_g = parseInt($('#career td').first().next().text())
-// var proj_g = parseFloat($('#2015 td').first().next().text()).toFixed(3)
 
-
-/*
-function career_avg() {
-	var career_array = $('#career td');
-	for (i = 1; i < career_array.length; i++){
-		
-		//console.log(career_array[i].innerText);
-	return career_array
-	}
-}
-*/
-
-//h = career_avg()
-
-// h = $('#career td');
-/*
-var c162 = $('<tr id = c162><td>162avg</td></tr>')
-
-for (i = 1; i < $('#career td').length; i++){
-	var datum = parseFloat($('#career td')[i].innerText).toFixed(1);
-	//var stat_class = $('#2015 td')[i].attr('class');
-	datum = (datum * 162 / career_g).toFixed(1);
-	$('<td></td>').text(datum).appendTo(c162);
-}
-
-$('table #career').after(c162)
-*/
-/*
-var proj162 = $('<tr id = proj162><td>proj162</td></tr>')
-
-for (i = 1; i < $('#2015 td').length; i++){
-	var datum = parseFloat($('#2015 td')[i].innerText).toFixed(1);
-	var stat_class = $('#2015 td')[i].attr('class');
-	datum = (datum * 162 / proj_g).toFixed(1);
-	$('<td></td>').text(datum).addClass(stat_class).appendTo(proj162);
-}
-
-$('table #c162').after(proj162)
-*/
 $(document).ready(function(){
 	$('#wOBA_add').click(function(){
 		add_wOBA();
@@ -52,7 +11,7 @@ $(document).ready(function(){
 })
 
 $('#reset_form').on('click', function(){
-	alert('Clicked!!!');
+	// alert('Clicked!!!');
 	document.getElementById('form2').reset()
 	//	set_form_2015();
 	/*stat_list = $('#custom2 th'); // [1:] use innerText
@@ -62,7 +21,32 @@ $('#reset_form').on('click', function(){
 	};*/
 });
 
-
+$('#game_scale').on('click', function(){
+	var origG = parseInt($('input').val())
+	var inputs = $('input');
+	if ($('input:disabled').length == 0) {
+		for (var i = 1; i < inputs.length; i++) {
+			inputs[i].setAttribute('disabled', true);
+		};
+		$('#Ginput').change(function(){
+			var games = parseInt($(this).val());
+			if (games >= 0 && games <= 162) {
+				for (var i = 1; i < inputs.length; i++) {
+					inputs[i].value = Math.round((games / origG) * inputs[i].defaultValue)
+				};
+			} else {
+				console.log('Not!!!') //
+			};
+			
+		})
+		.change();
+	} else {
+		// console.log('here');
+		for (var i = 1; i < inputs.length; i++) {
+			inputs[i].removeAttribute('disabled');
+		}
+	}
+})
 
 
 function build_year (year_name) {
@@ -151,7 +135,7 @@ function add_wOBA () {
 			woba_q = $(woba_str);
 			woba_q.appendTo(rows[i]);
 		}
-	console.log("got here");
+	console.log("got here"); // if this works can move top line down here
 	
 	};
 }

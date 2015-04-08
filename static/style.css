@@ -16,12 +16,20 @@
 
 .SF {display: none;}
 
-#wOBA_add, #reset_form {
+#wOBA_add, #reset_form, #game_scale {
 	width: 250px;
-	margin-top: 3px;
+	border: 1px solid white;
+	/* margin-top: 5px; */
+	margin: 5px;
+	display: inline-block;
 	text-align: center;
 	color: white;
 	background-color: green;
+}
+
+#wOBA_add:hover, #reset_form:hover, #game_scale:hover {
+	/* color: black; */
+	border: 1px solid black;
 }
 
 #wOBA_formula {display: none;}
