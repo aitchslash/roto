@@ -40,11 +40,36 @@ for (i = 1; i < $('#2015 td').length; i++){
 
 $('table #c162').after(proj162)
 */
+$(document).ready(function(){
+	$('#wOBA_add').click(function(){
+		add_wOBA();
+		$('#wOBA_formula').removeClass();
+	})
+})
+
+$(document).ready(function(){
+	set_form_2015()
+})
+
+$('#reset_form').on('click', function(){
+	alert('Clicked!!!');
+	document.getElementById('form2').reset()
+	//	set_form_2015();
+	/*stat_list = $('#custom2 th'); // [1:] use innerText
+	target = $('#custom2 input');
+	for (var i = 1; i < stat_list.length; i++) {
+		target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
+	};*/
+});
+
+
+
+
 function build_year (year_name) {
 	var row_name;
 	if (year_name == "2015") {row_name = "full2015"};
 	if (year_name == "career") {row_name = '162avg'};
-	var new_row_str = "<tr id = " + row_name + "><td>" + row_name + "</td></tr>";
+	var new_row_str = "<tr id = " + row_name + "><td class='Year'>" + row_name + "</td></tr>";
 	new_row = $(new_row_str);
 	selector = "#" + year_name + " td";
 	g_selector = "#" + year_name + " .G";
@@ -88,28 +113,48 @@ function add_avg () {
 
 function getStat (row_id, stat) {
 	selector = "#" + row_id + " ." + stat;
+	//console.log(selector);
 	stat_floated = parseFloat($(selector).text());
 	return stat_floated
 }
 
-function add_wOBA () {
-	rows = $('tr');
-	head = $('<th class="wOBA">wOBA</th>');
-	head.appendTo(rows[0]);
-	for (var i = 1; i < rows.length; i++) {
-		bb = getStat(rows[i].id, "BB");
-		ibb = getStat(rows[i].id, "IBB");
-		hbp = getStat(rows[i].id, "HBP");
-		h = getStat(rows[i].id, "H");
-		h2b = getStat(rows[i].id, "2B");
-		h3b = getStat(rows[i].id, "3B");
-		hr = getStat(rows[i].id, "HR");
-		ab = getStat(rows[i].id, "AB");
-		sf = getStat(rows[i].id, "SF");
-		woba = parseFloat((.689*(bb - ibb) + .722*hbp + .892*(h - h2b - h3b - hr)
-			+ 1.283*h2b + 1.635*h3b + 2.135*hr) / (ab + bb - ibb + sf + hbp)).toFixed(3);
-		woba_str = "<td class=wOBA>" + woba + "</td>";
-		woba_q = $(woba_str);
-		woba_q.appendTo(rows[i]);
+// get target(s)
+// get content
+// loop through content and set text/val to target(s)
+function set_form_2015 () {
+	stat_list = $('#custom2 th'); // [1:] use innerText
+	target = $('#custom2 input');
+	for (var i = 1; i < stat_list.length; i++) {
+		target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
 	};
 }
+
+function add_wOBA () {
+	$('#wOBA_add').slideUp(); // better at the bottom, but...
+	if (($('#2015 .wOBA').text()).length == 0) {
+		rows = $('tr');
+		head = $('<th class="wOBA">wOBA</th>');
+		head.appendTo(rows[0]);
+		for (var i = 1; i < rows.length; i++) {
+			bb = getStat(rows[i].id, "BB");
+			ibb = getStat(rows[i].id, "IBB");
+			hbp = getStat(rows[i].id, "HBP");
+			h = getStat(rows[i].id, "H");
+			h2b = getStat(rows[i].id, "2B");
+			h3b = getStat(rows[i].id, "3B");
+			hr = getStat(rows[i].id, "HR");
+			ab = getStat(rows[i].id, "AB");
+			sf = getStat(rows[i].id, "SF");
+			woba = parseFloat((.689*(bb - ibb) + .722*hbp + .892*(h - h2b - h3b - hr)
+				+ 1.283*h2b + 1.635*h3b + 2.135*hr) / (ab + bb - ibb + sf + hbp)).toFixed(3);
+			woba_str = "<td class=wOBA>" + woba + "</td>";
+			woba_q = $(woba_str);
+			woba_q.appendTo(rows[i]);
+		}
+	console.log("got here");
+	
+	};
+}
+
+
+

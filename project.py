@@ -39,12 +39,12 @@ def PlayerPage(playerID):
 def EditPlayer(playerID):
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
-    career_games = session.query(Batting.G).filter(Batting.lahmanID == playerID, Batting.yearID == 162).scalar()
-    proj_games = session.query(Batting.G).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).scalar()
-    modifier = 162 / float(career_games)
-    proj_mod = 162 / float(proj_games)
+    # career_games = session.query(Batting.G).filter(Batting.lahmanID == playerID, Batting.yearID == 162).scalar()
+    # proj_games = session.query(Batting.G).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).scalar()
+    # modifier = 162 / float(career_games)
+    # proj_mod = 162 / float(proj_games)
     return render_template('player_edit.html', player_data=player_data,
-                           player_stats=player_stats, mod=modifier, projmod=proj_mod)
+                           player_stats=player_stats)  # , mod=modifier, projmod=proj_mod)
 
 
 @app.route('/team/<teamID>')

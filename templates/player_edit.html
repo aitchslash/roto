@@ -1,7 +1,7 @@
 {% extends "base2.html" %}
 {% block content %}
 <h1>{{ player_data.name }}</h1>
-<table>
+<table id="statstable">
 	<tr>
 		<th class="Year">Year</th>
 		<th class="G">G</th>
@@ -46,9 +46,72 @@
 	{% endfor %}
 
 </table>
-<p>Modifier = {{ mod }} </p>
-<p>Proj Mod = {{ projmod }}</p>
+
+
+
+<div id="wOBA_add">Add wOBA</div>
+
+<!--
+<div id="formhead">
+	<span></span>
+	<span>G</span>
+	<span>AB</span>
+	<span>H</span>
+	<span>R</span>
+	<span>2B</span>
+	<span>3B</span>
+	<span>HR</span>
+	<span>RBI</span>
+	<span>SB</span>
+</div>
+<form id="custom">
+	
+	<span>Custom</span>
+	<input class="formcell" type="text" name="cG">
+	<input class="formcell" type="text" name="cAB">
+	<input class="formcell" type="text" name="cH">
+	<input class="formcell" type="text" name="cR">
+	<input class="formcell" type="text" name="c2B">
+	<input class="formcell" type="text" name="c3B">
+	<input class="formcell" type="text" name="cHR">
+	<input class="formcell" type="text" name="cRBI">
+	<input class="formcell" type="text" name="SB">
+
+</form>
+-->
+<br><br>
+<div id = "custom2">
+<form id="form2">
+	<table>
+		<tr>
+			<th class='firstCol'></th>
+			<th>G</th>
+			<th>AB</th>
+			<th>H</th>
+			<th>R</th>
+			<th>2B</th>
+			<th>3B</th>
+			<th>HR</th>
+			<th>RBI</th>
+			<th>SB</th>
+		</tr>
+		<tr>
+			<td class="f$irstCol">Custom2</td>
+			<td><input type="number" min="0" max="162"></td>
+			<td><input type="number" min="0" max="700"></td>
+			<td><input type="text" maxlength="3" size="4"></td>
+			<td><input type="text" maxlength="3" size="4"></td>
+			<td><input type="text" maxlength="3" size="4"></td>
+			<td><input type="text" maxlength="3" size="4"></td><td><input type="text" maxlength="3" size="4"></td>
+			<td><input type="text" maxlength="3" size="4"></td>
+			<td><input type="text" maxlength="3" size="4"></td>
+		</tr>
+</form>
+</div>
+<div id="reset_form">Reset to projected 2015</div>
+
+<p id="wOBA_formula">wOBA formula:  wOBA = (.689*uBB + .722*HBP + .892*1B + 1.283*2B + 1.635*3B + 2.135*HR) / (AB + BB - IBB + SF + HBP)</p>
+
 <script src="/static/dostuff.js" type='text/javascript'></script>
-<p id="wOBA">wOBA formula:  wOBA = (.689*uBB + .722*HBP + .892*1B + 1.283*2B + 1.635*3B + 2.135*HR) / (AB + BB - IBB + SF + HBP)</p>
 {% endblock %}
 

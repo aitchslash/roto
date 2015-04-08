@@ -1,3 +1,9 @@
+#statstable{width: 100%;
+	border: 1px solid green;
+	max-width: 680px;}
+
+#statstable td{text-align: center;}
+
 .IBB {display: none;}
 
 .BB {display: none;}
@@ -9,3 +15,40 @@
 .CS {display: none;}
 
 .SF {display: none;}
+
+#wOBA_add, #reset_form {
+	width: 250px;
+	margin-top: 3px;
+	text-align: center;
+	color: white;
+	background-color: green;
+}
+
+#wOBA_formula {display: none;}
+
+/*
+#custom{display: table;
+	max-width: 600px}
+
+.formcell {
+	display: table-cell;
+	width: 7%;
+	margin: 2px;
+}
+
+#formhead span {
+	display: table-cell;
+	width: 8%;
+	margin: 2px;
+}
+*/
+
+#custom2 {max-width: 540px;}
+
+/* .firstCol{width: 18%;} */
+
+#form2 td {
+	text-align: right;
+	width: 7%;
+}
+/* #form2 th {text-align: center;} */
