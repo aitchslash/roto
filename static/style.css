@@ -16,10 +16,9 @@
 
 .SF {display: none;}
 
-#wOBA_add, #reset_form, #game_scale, #submit {
+.button {
 	width: 180px;
 	border: 1px solid white;
-	/* margin-top: 5px; */
 	margin: 5px;
 	display: inline-block;
 	text-align: center;
@@ -27,33 +26,13 @@
 	background-color: green;
 }
 
-#wOBA_add:hover, #reset_form:hover, #game_scale:hover, #submit:hover{
-	/* color: black; */
+.button:hover {
 	border: 1px solid black;
 }
 
 #wOBA_formula {display: none;}
 
-/*
-#custom{display: table;
-	max-width: 600px}
-
-.formcell {
-	display: table-cell;
-	width: 7%;
-	margin: 2px;
-}
-
-#formhead span {
-	display: table-cell;
-	width: 8%;
-	margin: 2px;
-}
-*/
-
 #custom2 {max-width: 540px;}
-
-/* .firstCol{width: 18%;} */
 
 #form2 td {
 	text-align: right;
