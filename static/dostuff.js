@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	if (parseInt($('#2015 .AB').text()) < 300) {
-		console.log("in f(x)")
+		// console.log("in f(x)")
 		add_2014_buttons();
 	};
 })
@@ -20,6 +20,8 @@ $(document).ready(function(){
 function add_2014_buttons() {
 	var $avg2014 = $('<div class="button" id="avg2014">Use MLB 2014 mean</div>');
 	$('body').append($avg2014);
+	var $half_and_half = $('<div class="button" id="half_and_half">0.5*MLB avg, 0.5*2015</div>');
+	$('body').append($half_and_half);
 }
 
 $('#reset_form').on('click', function(){
