@@ -14,6 +14,9 @@ $(document).ready(function(){
 	if (parseInt($('#2015 .AB').text()) < 300) {
 		// console.log("in f(x)")
 		add_2014_buttons();
+		$('#avg2014').click(function(){
+			set_form_2014avg();
+		})
 	};
 })
 
@@ -72,7 +75,6 @@ $('#game_scale').on('click', function(){
 		}
 	}
 })
-
 
 function build_year (year_name) {
 	var row_name;
@@ -138,6 +140,18 @@ function set_form_2015 () {
 	};
 }
 
+function set_form_2014avg () {
+	stat_list = $('#custom2 th');
+	target = $('#custom2 input');
+	for (var i = 1; i < stat_list.length; i++) {
+		stat = stat_list[i].innerText;
+		console.log(stat);
+		parsed_stat = Math.round(mlb_avg_2014[stat]);
+		console.log(parsed_stat)
+		target[i - 1].setAttribute("value", parsed_stat);
+	};
+}
+
 function add_wOBA () {
 	$('#wOBA_add').slideUp(); // better at the bottom, but...
 	if (($('#2015 .wOBA').text()).length == 0) {
@@ -167,7 +181,7 @@ function add_wOBA () {
 
 
 
-mlb_avg_2014 = {'SF': 3.5171288189190566, 'GDP': 9.95372243662762, 'AB': 456.1360784780428, 
+mlb_avg_2014 = {'SF': 3.5171288189190566, 'GIDP': 9.95372243662762, 'AB': 456.1360784780428, 
 	'PA': 506.57671840731734, 'G': 162.0, 'HR': 11.529131743144221, 'Season': '2014', 
 	'BB': 38.614053282102724, 'SH': 3.6989068158248184, 'HBP': 4.549958346792703, 
 	'CS': 2.8506094969312636, '1B': 78.28296978867373, 'SO': 103.12045427497917, 
