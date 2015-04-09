@@ -22,6 +22,12 @@ $('#reset_form').on('click', function(){
 });
 
 $('#submit').on('click', function(){
+	var greyed = $('input:disabled');
+	if (greyed.length > 0) {
+		for (var i = 0; i < greyed.length; i++) {
+			greyed[i].removeAttribute('disabled');
+		};
+	}
 	document.getElementById('form2').submit();
 })
 
