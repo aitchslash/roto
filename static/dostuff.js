@@ -10,6 +10,18 @@ $(document).ready(function(){
 	set_form_2015()
 })
 
+$(document).ready(function(){
+	if (parseInt($('#2015 .AB').text()) < 300) {
+		console.log("in f(x)")
+		add_2014_buttons();
+	};
+})
+
+function add_2014_buttons() {
+	var $avg2014 = $('<div class="button" id="avg2014">Use MLB 2014 mean</div>');
+	$('body').append($avg2014);
+}
+
 $('#reset_form').on('click', function(){
 	// alert('Clicked!!!');
 	document.getElementById('form2').reset()
@@ -150,6 +162,7 @@ function add_wOBA () {
 	
 	};
 }
+
 
 
 mlb_avg_2014 = {'SF': 3.5171288189190566, 'GDP': 9.95372243662762, 'AB': 456.1360784780428, 
