@@ -1,6 +1,7 @@
 {% extends "base2.html" %}
 {% block content %}
 <h1>{{ player_data.name }}</h1>
+<h2>{{ player_data.lahmanID }}</h2>
 <table id="statstable">
 	<tr>
 		<th class="Year">Year</th>
@@ -81,7 +82,7 @@
 -->
 <br><br>
 <div id = "custom2">
-<form id="form2">
+<form id="form2" action="{{ url_for('EditPlayer', playerID=player_data.lahmanID )}}" method='POST'>
 	<table>
 		<tr>
 			<th class='firstCol'></th>
@@ -96,20 +97,22 @@
 			<th>SB</th>
 		</tr>
 		<tr>
-			<td class="f$irstCol">Custom2</td>
-			<td><input id="Ginput" type="number" min="0" max="162"></td>
-			<td><input type="number" min="0" max="700"></td>
-			<td><input type="text" maxlength="3" size="4"></td>
-			<td><input type="text" maxlength="3" size="4"></td>
-			<td><input type="text" maxlength="3" size="4"></td>
-			<td><input type="text" maxlength="3" size="4"></td><td><input type="text" maxlength="3" size="4"></td>
-			<td><input type="text" maxlength="3" size="4"></td>
-			<td><input type="text" maxlength="3" size="4"></td>
+			<td class="firstCol">Custom2</td>
+			<td><input id="Ginput" name="Gnew" type="number" min="0" max="162"></td>
+			<td><input name="ABnew" type="number" min="0" max="700"></td>
+			<td><input name="Hnew" type="text" maxlength="3" size="4"></td>
+			<td><input name="Rnew" type="text" maxlength="3" size="4"></td>
+			<td><input name="h2Bnew" type="text" maxlength="3" size="4"></td>
+			<td><input name="h3Bnew" type="text" maxlength="3" size="4"></td>
+			<td><input name="HR" type="text" maxlength="3" size="4"></td>
+			<td><input name="RBInew" type="text" maxlength="3" size="4"></td>
+			<td><input name="SBnew" type="text" maxlength="3" size="4"></td>
 		</tr>
 </form>
 </div>
 <div id="reset_form">Reset to projected 2015</div>
 <div id="game_scale">Scale 2015 to G</div>
+<div id="submit">SUBMIT EDIT</div>
 
 <p id="wOBA_formula">wOBA formula:  wOBA = (.689*uBB + .722*HBP + .892*1B + 1.283*2B + 1.635*3B + 2.135*HR) / (AB + BB - IBB + SF + HBP)</p>
 

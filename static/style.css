@@ -16,8 +16,8 @@
 
 .SF {display: none;}
 
-#wOBA_add, #reset_form, #game_scale {
-	width: 250px;
+#wOBA_add, #reset_form, #game_scale, #submit {
+	width: 180px;
 	border: 1px solid white;
 	/* margin-top: 5px; */
 	margin: 5px;
@@ -27,7 +27,7 @@
 	background-color: green;
 }
 
-#wOBA_add:hover, #reset_form:hover, #game_scale:hover {
+#wOBA_add:hover, #reset_form:hover, #game_scale:hover, #submit:hover{
 	/* color: black; */
 	border: 1px solid black;
 }

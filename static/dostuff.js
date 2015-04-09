@@ -21,6 +21,10 @@ $('#reset_form').on('click', function(){
 	};*/
 });
 
+$('#submit').on('click', function(){
+	document.getElementById('form2').submit();
+})
+
 $('#game_scale').on('click', function(){
 	var origG = parseInt($('input').val())
 	var inputs = $('input');
