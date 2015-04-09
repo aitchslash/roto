@@ -32,7 +32,8 @@ $('#submit').on('click', function(){
 })
 
 $('#game_scale').on('click', function(){
-	var origG = parseInt($('input').val())
+	// var origG = parseInt($('input').val())
+	var origG = parseInt(document.getElementById('Ginput').defaultValue)
 	var inputs = $('input');
 	if ($('input:disabled').length == 0) {
 		for (var i = 1; i < inputs.length; i++) {
