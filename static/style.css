@@ -59,4 +59,5 @@
 	text-align: right;
 	width: 7%;
 }
-/* #form2 th {text-align: center;} */
+
+.extra {display: none;}

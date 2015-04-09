@@ -54,6 +54,8 @@ def EditPlayer(playerID):
         # print AB
 
         H = request.form['Hnew']
+        CS = request.form['CSnew']
+        IBB = request.form['IBBnew']
         # print H
         '''
         R = request.form['Rnew']
@@ -70,7 +72,7 @@ def EditPlayer(playerID):
         print SB
         '''
         print "Got Data!!"
-        print H, G, AB
+        print H, G, AB, CS, IBB
 
         #  make new Batting object
         #  session.add()
