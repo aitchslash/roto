@@ -29,7 +29,8 @@ function add_2014_buttons() {
 
 $('#reset_form').on('click', function(){
 	// alert('Clicked!!!');
-	document.getElementById('form2').reset()
+	//document.getElementById('form2').reset() // sorta worked
+	set_form_2015();
 	//	set_form_2015();
 	/*stat_list = $('#custom2 th'); // [1:] use innerText
 	target = $('#custom2 input');
