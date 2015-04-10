@@ -1,7 +1,11 @@
 {% extends "base2.html" %}
 {% block content %}
 <h1>{{ player_data.name }}</h1>
-<h2>{{ player_data.lahmanID }}</h2>
+<h2>Team/Position/Age:  
+	{{ player_data.teamID }}/
+	{{ player_data.pos}}/
+	{{ player_data.age}}
+</h2>
 <table id="statstable">
 	<tr>
 		<th class="Year">Year</th>
