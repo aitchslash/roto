@@ -15,7 +15,7 @@ $(document).ready(function(){
 		// console.log("in f(x)")
 		add_2014_buttons();
 		$('#avg2014').click(function(){
-			set_form_2014avg();
+			set_mlbavg();
 		})
 	};
 })
@@ -30,7 +30,9 @@ function add_2014_buttons() {
 $('#reset_form').on('click', function(){
 	// alert('Clicked!!!');
 	//document.getElementById('form2').reset() // sorta worked
-	set_form_2015();
+	ensure_enabled();
+	//set_form_2015();
+	reset_form();
 	//	set_form_2015();
 	/*stat_list = $('#custom2 th'); // [1:] use innerText
 	target = $('#custom2 input');
@@ -40,14 +42,19 @@ $('#reset_form').on('click', function(){
 });
 
 $('#submit').on('click', function(){
+	/*
 	var greyed = $('input:disabled');
 	if (greyed.length > 0) {
 		for (var i = 0; i < greyed.length; i++) {
 			greyed[i].removeAttribute('disabled');
 		};
 	}
+	*/
+	ensure_enabled();
 	document.getElementById('form2').submit();
 })
+
+
 
 $('#game_scale').on('click', function(){
 	// var origG = parseInt($('input').val())
@@ -57,8 +64,9 @@ $('#game_scale').on('click', function(){
 		for (var i = 1; i < inputs.length; i++) {
 			inputs[i].setAttribute('disabled', true);
 		};
-		$('#Ginput').change(function(){
+		$('#Ginput').change(function(event){
 			var games = parseInt($(this).val());
+			console.log(event.type);
 			if (games >= 0 && games <= 162) {
 				for (var i = 1; i < inputs.length; i++) {
 					inputs[i].value = Math.round((games / origG) * inputs[i].defaultValue)
@@ -76,6 +84,16 @@ $('#game_scale').on('click', function(){
 		}
 	}
 })
+
+
+function ensure_enabled() {
+	var greyed = $('input:disabled');
+	if (greyed.length > 0) {
+		for (var i = 0; i < greyed.length; i++) {
+			greyed[i].removeAttribute('disabled');
+		};
+	}
+}
 
 function build_year (year_name) {
 	var row_name;
@@ -136,11 +154,33 @@ function getStat (row_id, stat) {
 function set_form_2015 () {
 	stat_list = $('#custom2 th'); // [1:] use innerText
 	target = $('#custom2 input');
+	console.log('set 2015');
 	for (var i = 1; i < stat_list.length; i++) {
+		//target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
 		target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
+		// console.log(stat_list[i].innerText)  // tester
 	};
 }
 
+function reset_form () {
+	$('input').each(function(){
+		var dv = $(this).prop("defaultValue");
+		// console.log(dv)
+		$(this).val(dv);
+	})
+}
+
+function set_mlbavg () {
+	$('input').each(function(){
+		var name = this.name;
+		console.log(name);
+		stat = Math.round(mlb_avg_2014[name]);
+		console.log(stat);
+		$(this).val(stat);
+	})
+}
+
+/*
 function set_form_2014avg () {
 	stat_list = $('#custom2 th');
 	target = $('#custom2 input');
@@ -150,8 +190,10 @@ function set_form_2014avg () {
 		parsed_stat = Math.round(mlb_avg_2014[stat]);
 		console.log(parsed_stat)
 		target[i - 1].setAttribute("value", parsed_stat);
+
 	};
 }
+*/ 
 
 function add_wOBA () {
 	$('#wOBA_add').slideUp(); // better at the bottom, but...

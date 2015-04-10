@@ -46,16 +46,16 @@ def EditPlayer(playerID):
     if request.method == "POST":
         print "Posted!!!"
         playerID = playerID,
-        G = request.form['Gnew']
+        G = request.form['G']
         # print "G" + str(G)
         # result = request.form['form2']
 
-        AB = request.form['ABnew']
+        AB = request.form['AB']
         # print AB
 
-        H = request.form['Hnew']
-        CS = request.form['CSnew']
-        IBB = request.form['IBBnew']
+        H = request.form['H']
+        CS = request.form['CS']
+        IBB = request.form['IBB']
         # print H
         '''
         R = request.form['Rnew']
