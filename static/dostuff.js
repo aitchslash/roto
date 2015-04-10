@@ -15,13 +15,14 @@ $(document).ready(function(){
 		// console.log("in f(x)")
 		add_2014_buttons();
 		$('#avg2014').click(function(){
+			ensure_enabled();
 			set_mlbavg();
 		})
 	};
 })
 
 function add_2014_buttons() {
-	var $avg2014 = $('<div class="button" id="avg2014">Use MLB 2014 mean</div>');
+	var $avg2014 = $('<div class="button" id="avg2014">Use MLB avg</div>');
 	$('body').append($avg2014);
 	var $half_and_half = $('<div class="button" id="half_and_half">0.5*MLB avg, 0.5*2015</div>');
 	$('body').append($half_and_half);
@@ -57,8 +58,12 @@ $('#submit').on('click', function(){
 
 
 $('#game_scale').on('click', function(){
-	// var origG = parseInt($('input').val())
-	var origG = parseInt(document.getElementById('Ginput').defaultValue)
+	var origG = parseInt($('input').val());
+	orig_data = [];
+	a = $('input');
+	for (i=0; i < a.length; i++) {orig_data.push(a[i].value)}
+	// var origG = parseInt(document.getElementById('Ginput').defaultValue) // worrks for 2015
+	console.log(orig_data);
 	var inputs = $('input');
 	if ($('input:disabled').length == 0) {
 		for (var i = 1; i < inputs.length; i++) {
@@ -69,7 +74,9 @@ $('#game_scale').on('click', function(){
 			console.log(event.type);
 			if (games >= 0 && games <= 162) {
 				for (var i = 1; i < inputs.length; i++) {
-					inputs[i].value = Math.round((games / origG) * inputs[i].defaultValue)
+					//inputs[i].value = Math.round((games / origG) * inputs[i].defaultValue)
+					// var gamez = parseInt($('input').val());
+					inputs[i].value = Math.round(parseFloat(games / parseInt(orig_data[0])) * parseInt(orig_data[i]));
 				};
 			} else {
 				console.log('Not!!!') //
@@ -173,9 +180,9 @@ function reset_form () {
 function set_mlbavg () {
 	$('input').each(function(){
 		var name = this.name;
-		console.log(name);
+		// console.log(name);
 		stat = Math.round(mlb_avg_2014[name]);
-		console.log(stat);
+		// console.log(stat);
 		$(this).val(stat);
 	})
 }
