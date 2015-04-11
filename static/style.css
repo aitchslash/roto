@@ -16,6 +16,11 @@
 
 .SF {display: none;}
 
+.SO {display: none;}
+
+.SH {display: none;}
+
+
 .button {
 	width: 180px;
 	border: 1px solid white;
