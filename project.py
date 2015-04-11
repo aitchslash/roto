@@ -39,40 +39,35 @@ def PlayerPage(playerID):
 def EditPlayer(playerID):
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
-    # career_games = session.query(Batting.G).filter(Batting.lahmanID == playerID, Batting.yearID == 162).scalar()
-    # proj_games = session.query(Batting.G).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).scalar()
-    # modifier = 162 / float(career_games)
-    # proj_mod = 162 / float(proj_games)
+
     if request.method == "POST":
         print "Posted!!!"
-        player_id = str(playerID)
-        g = request.form['G']
-        ab = request.form['AB']
-        h = request.form['H']
-        cs = request.form['CS']
-        ibb = request.form['IBB']
-        r = request.form['R']
-        h2b = request.form['2B']
-        h3b = request.form['3B']
-        hr = request.form['HR']
-        rbi = request.form['RBI']
-        sb = request.form['SB']
-        bb = request.form['BB']
-        so = request.form['SO']
-        hbp = request.form['HBP']
-        gidp = request.form['GIDP']
-        sf = request.form['SF']
-        sh = request.form['SH']
 
-        print "Got Data!!"
-        print player_id
-        print h, g, ab, cs, ibb, h2b, h3b, r
-        print hr, rbi, sb, bb
-        print so, hbp, gidp, sf, sh
+        stats2015 = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
 
-        #  make new Batting object
-        #  session.add()
-        #  session.commit()
+        stats2015.G = request.form['G']
+        stats2015.AB = request.form['AB']
+        stats2015.H = request.form['H']
+        stats2015.CS = request.form['CS']
+        stats2015.IBB = request.form['IBB']
+        stats2015.R = request.form['R']
+        stats2015.doubles = request.form['2B']
+        stats2015.triples = request.form['3B']
+        stats2015.HR = request.form['HR']
+        stats2015.RBI = request.form['RBI']
+        stats2015.SB = request.form['SB']
+        stats2015.BB = request.form['BB']
+        stats2015.SO = request.form['SO']
+        stats2015.HBP = request.form['HBP']
+        stats2015.GIDP = request.form['GIDP']
+        stats2015.SF = request.form['SF']
+        stats2015.SH = request.form['SH']
+
+        session.add(stats2015)
+        session.commit()
+
+        # flash(db updated)
+
         return render_template('player_edit.html', player_data=player_data,
                                player_stats=player_stats)
     else:
