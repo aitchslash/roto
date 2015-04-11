@@ -20,6 +20,9 @@
 
 .SH {display: none;}
 
+a, a:visited {text-decoration: none;
+	color: white;}
+
 
 .button {
 	width: 180px;

@@ -1,31 +1,62 @@
-{% extends "base.html" %}
+{% extends "base2.html" %}
 {% block content %}
 <h1>{{ player_data.name }}</h1>
-<table>
+<h2>Team/Position/Age:  
+	{{ player_data.teamID }}/
+	{{ player_data.pos}}/
+	{{ player_data.age}}
+</h2>
+<table id="statstable">
 	<tr>
-		<th>Year</th>
-		<th>G</th>
-		<th>AB</th>
-		<th>H</th>
-		<th>R</th>
-		<th>2B</th>
-		<th>3B</th>
-		<th>HR</th>
-		<th>RBI</th>
-		<th>SB</th>
+		<th class="Year">Year</th>
+		<th class="G">G</th>
+		<th class="AB">AB</th>
+		<th class="H">H</th>
+		<th class="R">R</th>
+		<th class="2B">2B</th>
+		<th class="3B">3B</th>
+		<th class="HR">HR</th>
+		<th class="RBI">RBI</th>
+		<th class="SB">SB</th>
+		<th class="CS">CS</th>
+		<th class="IBB">IBB</th>
+		<th class="BB">BB</th>
+		<th class="HBP">HBP</th>
+		<th class="SF">SF</th>
+		<th class="GIDP">GIDP</th>
+		<th class="SO">SO</th>
+		<th class="SH">SH</th>
 	</tr>
 	{% for row in player_stats %}
-		<td>{{ row.G }}
-		<td>{{ row.AB }}</td>
-		<td>{{ row.H }}</td>
-		<td>{{ row.R }}</td>
-		<td>{{ row.doubles }}</td>
-		<td>{{ row.triples }}</td>
-		<td>{{ row.HR }}</td>
-		<td>{{ row.RBI }}</td>
-		<td>{{ row.SB }}</td>
-	</tr>
+	
+		{% if row.yearID == 162 %}
+			<tr id='career'><td class='Year'>Career</td>
+		{% else %}
+			<tr id='{{ row.yearID }}'><td class="Year">{{ row.yearID }}</td>
+		{% endif %}
+			<td class="G">{{ row.G }}
+			<td class="AB">{{ row.AB }}</td>
+			<td class="H">{{ row.H }}</td>
+			<td class="R">{{ row.R }}</td>
+			<td class="2B">{{ row.doubles }}</td>
+			<td class="3B">{{ row.triples }}</td>
+			<td class="HR">{{ row.HR }}</td>
+			<td class="RBI">{{ row.RBI }}</td>
+			<td class="SB">{{ row.SB }}</td>
+			<td class="CS">{{ row.CS }}</td>
+			<td class="IBB">{{ row.IBB}}</td>
+			<td class="BB">{{ row.BB  }}</td>
+			<td class="HBP">{{ row.HBP  }}</td>
+			<td class="SF">{{ row.SF  }}</td>
+			<td class="GIDP">{{ row.GIDP  }}</td>
+			<td class="SO">{{ row.SO  }}</td>
+			<td class="SH">{{ row.SH  }}</td>
+		</tr>
 	{% endfor %}
-	<!-- put out career/career 162, projected/proj162 -->
+
 </table>
+<!-- works, but want to try url_for
+<div class="button" id="do_edit"><a href="/player/{{ player_data.lahmanID }}/edit/">Edit 2015 stats</a></div>
+-->
+<div class="button" id="do_edit"><a href={{ url_for('EditPlayer', playerID=player_data.lahmanID) }}>Edit 2015</a></div>
 {% endblock %}

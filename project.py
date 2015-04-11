@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 
 
@@ -26,6 +26,10 @@ def HelloWorld():
 
 @app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
 def PlayerPage(playerID):
+    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
+    player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+    return render_template('player.html', player_data=player_data, player_stats=player_stats)
+    '''
     player_data = session.query(Player).filter(Player.lahmanID == id).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == id, Batting.yearID >= 2012,
                                                  Batting.yearID <= 2014).order_by(Batting.yearID).all()
@@ -33,6 +37,7 @@ def PlayerPage(playerID):
     proj_stats = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
     return render_template('player.html', player_data=player_data, player_stats=player_stats,
                            career_stats=career_stats, proj_stats=proj_stats)
+    '''
 
 
 @app.route('/player/<playerID>/edit/', methods=['GET', 'POST'])
@@ -67,9 +72,11 @@ def EditPlayer(playerID):
         session.commit()
 
         # flash(db updated)
-
+        ''' works, goes to edit page, try implementing url_for redirect
         return render_template('player_edit.html', player_data=player_data,
                                player_stats=player_stats)
+        '''
+        return redirect(url_for('PlayerPage', playerID=playerID))
     else:
         return render_template('player_edit.html', player_data=player_data,
                                player_stats=player_stats)  # , mod=modifier, projmod=proj_mod)
