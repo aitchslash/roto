@@ -18,6 +18,10 @@ $(document).ready(function(){
 			ensure_enabled();
 			set_mlbavg();
 		})
+		$('#half_and_half').click(function () {
+			ensure_enabled();
+			half_and_half();
+		})
 	};
 })
 
@@ -63,7 +67,7 @@ $('#game_scale').on('click', function(){
 	a = $('input');
 	for (i=0; i < a.length; i++) {orig_data.push(a[i].value)}
 	// var origG = parseInt(document.getElementById('Ginput').defaultValue) // worrks for 2015
-	console.log(orig_data);
+	// console.log(orig_data);
 	var inputs = $('input');
 	if ($('input:disabled').length == 0) {
 		for (var i = 1; i < inputs.length; i++) {
@@ -71,7 +75,7 @@ $('#game_scale').on('click', function(){
 		};
 		$('#Ginput').change(function(event){
 			var games = parseInt($(this).val());
-			console.log(event.type);
+			// console.log(event.type);
 			if (games >= 0 && games <= 162) {
 				for (var i = 1; i < inputs.length; i++) {
 					//inputs[i].value = Math.round((games / origG) * inputs[i].defaultValue)
@@ -187,20 +191,18 @@ function set_mlbavg () {
 	})
 }
 
-/*
-function set_form_2014avg () {
-	stat_list = $('#custom2 th');
-	target = $('#custom2 input');
-	for (var i = 1; i < stat_list.length; i++) {
-		stat = stat_list[i].innerText;
-		console.log(stat);
-		parsed_stat = Math.round(mlb_avg_2014[stat]);
-		console.log(parsed_stat)
-		target[i - 1].setAttribute("value", parsed_stat);
-
-	};
+function half_and_half () {
+	$('input').each(function(){
+		var name = this.name;
+		// console.log(name);
+		stat = Math.round(mlb_avg_2014[name]);
+		// console.log(stat);
+		stat2 = Math.round($('#full2015 .' + name).text());
+		//console.log(stat2);
+		combo = Math.round((stat2 + stat) * 0.5)
+		$(this).val(combo);
+	})
 }
-*/ 
 
 function add_wOBA () {
 	$('#wOBA_add').slideUp(); // better at the bottom, but...
