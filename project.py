@@ -32,7 +32,7 @@ def PlayerPage(playerID):
     career_stats = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 162).one()
     proj_stats = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
     return render_template('player.html', player_data=player_data, player_stats=player_stats,
-                            career_stats=career_stats, proj_stats=proj_stats)
+                           career_stats=career_stats, proj_stats=proj_stats)
 
 
 @app.route('/player/<playerID>/edit/', methods=['GET', 'POST'])
@@ -45,43 +45,39 @@ def EditPlayer(playerID):
     # proj_mod = 162 / float(proj_games)
     if request.method == "POST":
         print "Posted!!!"
-        playerID = playerID,
-        G = request.form['G']
-        # print "G" + str(G)
-        # result = request.form['form2']
+        player_id = str(playerID)
+        g = request.form['G']
+        ab = request.form['AB']
+        h = request.form['H']
+        cs = request.form['CS']
+        ibb = request.form['IBB']
+        r = request.form['R']
+        h2b = request.form['2B']
+        h3b = request.form['3B']
+        hr = request.form['HR']
+        rbi = request.form['RBI']
+        sb = request.form['SB']
+        bb = request.form['BB']
+        so = request.form['SO']
+        hbp = request.form['HBP']
+        gidp = request.form['GIDP']
+        sf = request.form['SF']
+        sh = request.form['SH']
 
-        AB = request.form['AB']
-        # print AB
-
-        H = request.form['H']
-        CS = request.form['CS']
-        IBB = request.form['IBB']
-        # print H
-        '''
-        R = request.form['Rnew']
-        print R
-        h2b = request.form['h2Bnew']
-        print h2b
-        h3b = request.form['h3Bnew']
-        print h3b
-        HR = request.form['HRnew']
-        print HR
-        RBI = request.form['RBInew']
-        print RBI
-        SB = request.form['SBnew']
-        print SB
-        '''
         print "Got Data!!"
-        print H, G, AB, CS, IBB
+        print player_id
+        print h, g, ab, cs, ibb, h2b, h3b, r
+        print hr, rbi, sb, bb
+        print so, hbp, gidp, sf, sh
 
         #  make new Batting object
         #  session.add()
         #  session.commit()
         return render_template('player_edit.html', player_data=player_data,
-                                player_stats=player_stats)
+                               player_stats=player_stats)
     else:
         return render_template('player_edit.html', player_data=player_data,
-                                player_stats=player_stats)  # , mod=modifier, projmod=proj_mod)
+                               player_stats=player_stats)  # , mod=modifier, projmod=proj_mod)
 
 
 @app.route('/team/<teamID>')
