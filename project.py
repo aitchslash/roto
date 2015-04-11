@@ -24,6 +24,12 @@ def HelloWorld():
     return output
 
 
+@app.route('/team/<teamID>/')
+def teamPage(teamID):
+    team_batting_data = session.query(Player.lahmanID, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
+    return render_template('base_team.html', player_data=team_batting_data)
+
+
 @app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
 def PlayerPage(playerID):
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()

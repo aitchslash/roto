@@ -1,0 +1,8 @@
+{% extends "base2.html" %}
+{% block content %}
+
+{% for entry in player_data %}
+<ul>{{ entry.lahmanID }} </ul>
+{% endfor %}
+<script src="/static/dostuff.js" type='text/javascript'></script>
+{% endblock %}
