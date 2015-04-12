@@ -2,9 +2,10 @@ $(document).ready(function(){
 	add_wOBA();
 	$('.Year').hide();
 	$('#teamtable').dataTable({
-		paging: false,
-		info: false,
-		searching: false
+		"paging": false,
+		"info": false,
+		"searching": false,
+		"order": [[20, "desc"]]
 	});
 });
 
@@ -31,7 +32,7 @@ function add_wOBA () {
 			woba_q = $(woba_str);
 			woba_q.appendTo(rows[i]);
 		}
-	console.log("got here"); // if this works can move top line down here
+	// console.log("got here"); // if this works can move top line down here
 	
 	};
 }
