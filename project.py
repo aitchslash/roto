@@ -26,7 +26,7 @@ def HelloWorld():
 
 @app.route('/team/<teamID>/')
 def teamPage(teamID):
-    team_batting_data = session.query(Player.lahmanID, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
+    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
     return render_template('base_team.html', player_data=team_batting_data)
 
 

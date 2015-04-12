@@ -48,3 +48,6 @@ a, a:visited {text-decoration: none;
 }
 
 .extra {display: none;}
+
+/* styling for team page */
+.y2014, .y2013, .y2012, .y162 {display: none;} 

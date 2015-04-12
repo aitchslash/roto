@@ -12,6 +12,14 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# ## testing team page query ###
+def getTeamData(teamID):
+    # old working line but want name/age/etc.
+    # team_batting_data = session.query(Player.lahmanID, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
+    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
+    return team_batting_data
+
+
 def getTeamFromPickle(filename):
     """ fixes 'insecure pickle string error' via
     a dos2unix bit, then opens the pickle """
