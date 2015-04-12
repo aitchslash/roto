@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 	$('#wOBA_add').click(function(){
 		add_wOBA();

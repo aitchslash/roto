@@ -1,6 +1,12 @@
 $(document).ready(function(){
 	add_wOBA();
-})
+	$('.Year').hide();
+	$('#teamtable').dataTable({
+		paging: false,
+		info: false,
+		searching: false
+	});
+});
 
 function add_wOBA () {
 	// $('#wOBA_add').slideUp(); // better at the bottom, but...
@@ -28,3 +34,4 @@ function add_wOBA () {
 	console.log("got here"); // if this works can move top line down here
 	
 	};
+}

@@ -1,6 +1,7 @@
 {% extends "base2.html" %}
 {% block content %}
 <table id="teamtable">
+	<thead>
 	<tr>
 		<th class="fullname">Name</th>
 		<th class="POS">POS</th>
@@ -23,6 +24,8 @@
 		<th class="SO">SO</th>
 		<th class="SH">SH</th>
 	</tr>
+	</thead>
+	<tbody>
 {% for entry in player_data %}
 <tr class="y{{ entry.Batting.yearID }}">
 	<td class="fullname">{{ entry.Player.name }} </td>
@@ -46,5 +49,7 @@
 	<td class="SO">{{ entry.Batting.SO  }}</td>
 	<td class="SH">{{ entry.Batting.SH  }}</td>
 {% endfor %}
+	</tbody>
 <script src="/static/teamStuff.js" type='text/javascript'></script>
+<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 {% endblock %}
