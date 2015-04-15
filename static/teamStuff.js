@@ -5,7 +5,7 @@ $(document).ready(function(){
 		"paging": false,
 		"info": false,
 		"searching": false,
-		"order": [[20, "desc"]]
+		"order": [[20, "desc"]] // this i.e. [20] is wOBA
 	});
 });
 
@@ -35,4 +35,19 @@ function add_wOBA () {
 	// console.log("got here"); // if this works can move top line down here
 	
 	};
+}
+
+function calc162avg() {
+	$('.fullname:visible').each(function(){
+		//console.log($('.y162').find(".fullname").text($(this)));
+		//console.log($(this).text());
+		var name = $(this).text();
+		var adder = ($(".y162:contains('" + name + "')")[0]); // working
+		//$('table').remove(adder)
+		var target = $("tr:visible:contains('" + name +"')");
+		$(target).after($(adder))
+		$(adder).show()
+		//console.log(name)
+		// ($('table').append($(".y162:contains('" + name + "')");
+	})
 }
