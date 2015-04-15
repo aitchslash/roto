@@ -110,18 +110,18 @@ function build_year (year_name) {
 	if (year_name == "2015") {row_name = "full2015"};
 	if (year_name == "career") {row_name = '162avg'};
 	var new_row_str = "<tr id = " + row_name + "><td class='Year'>" + row_name + "</td></tr>";
-	new_row = $(new_row_str);
-	selector = "#" + year_name + " td";
-	g_selector = "#" + year_name + " .G";
-	games = parseFloat($(g_selector).text());
-	old_row = $(selector);
+	var new_row = $(new_row_str);
+	var selector = "#" + year_name + " td";
+	var g_selector = "#" + year_name + " .G";
+	var games = parseFloat($(g_selector).text());
+	var old_row = $(selector);
 	for (var i = 1; i < old_row.length; i++) {
 		new_class = old_row[i].getAttribute('class');
 		new_number = parseFloat(parseFloat(old_row[i].innerText) * 162 / games).toFixed(0);
 		$('<td></td>').text(new_number).addClass(new_class).appendTo(new_row);
 	};
 	//$('table').append(new_row)
-	t_select = "table #" + year_name;
+	var t_select = "table #" + year_name;
 	$(t_select).after(new_row);
 }
 

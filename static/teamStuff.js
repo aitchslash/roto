@@ -42,12 +42,33 @@ function calc162avg() {
 		//console.log($('.y162').find(".fullname").text($(this)));
 		//console.log($(this).text());
 		var name = $(this).text();
-		var adder = ($(".y162:contains('" + name + "')")[0]); // working
-		//$('table').remove(adder)
+		var career = ($(".y162:contains('" + name + "')")); // working
+		var games = parseFloat($(career).find('.G').text());
+		var avg162 = $("<tr id = 162avg><td class='fullname'>" + name + "</td><td class='Year' style:'display:hidden;'>162avg</td></tr>");
+		var stuff = career.children()
+		for (var i = 3; i < stuff.length - 1; i++) {
+			new_class = career.children()[i].getAttribute('class');
+			new_number = parseFloat(parseFloat(stuff[i].innerText) * 162 / games).toFixed(0);
+			$('<td></td>').text(new_number).addClass(new_class).appendTo(avg162);
+		};
 		var target = $("tr:visible:contains('" + name +"')");
-		$(target).after($(adder))
-		$(adder).show()
+		$(target).after($(career))
+		$(career).show()
+		$(target).after($(avg162))
 		//console.log(name)
 		// ($('table').append($(".y162:contains('" + name + "')");
 	})
+}
+
+function make162avg() {
+	// wrap this is a each()
+	var new_row_str = "<tr id = 162avg><td class='Year'>162avg</td></tr>";
+	var new_row = $(new_row_str);
+	var old_row = $('#.y162');
+	for (var i = 1; i < old_row.length - 1; i++) {
+		new_class = old_row[i].getAttribute('class');
+		new_number = parseFloat(parseFloat(old_row[i].innerText) * 162 / games).toFixed(0);
+		$('<td></td>').text(new_number).addClass(new_class).appendTo(new_row);
+	};
+	$('table .y162')
 }
