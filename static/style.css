@@ -47,6 +47,10 @@ a, a:visited {text-decoration: none;
 	width: 7%;
 }
 
+input {
+	text-align: right;
+}
+
 .extra {display: none;}
 
 /* styling for team page */
@@ -55,3 +59,11 @@ a, a:visited {text-decoration: none;
 .y162avg {background-color: #E6F3ED;} 
 
 .y162 {background-color: #B8C2BE;}
+
+#team_form {
+	width: 100%;
+	max-width: 680px;
+}
+#team_form td{width: 7%;}
+
+#team_form .Year{display: none;}
