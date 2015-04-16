@@ -46,6 +46,15 @@ def PlayerPage(playerID):
     '''
 
 
+@app.route('/team/<teamID>/edit/', methods=['GET', 'POST'])
+def editTeam(teamID):
+    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
+    if request.method == "POST":
+        pass
+    else:
+        return render_template('team_edit.html', team_data=team_batting_data)
+
+
 @app.route('/player/<playerID>/edit/', methods=['GET', 'POST'])
 def EditPlayer(playerID):
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
