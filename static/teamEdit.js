@@ -13,6 +13,22 @@ function scale_ab () {
 		$('#team_form .AB input').each(function () {
 			$(this).removeAttr('disabled');
 		})
+		$('.AB input').change(function () {
+			var row_num = ($('.AB input').index($(this)));
+			new_abs = parseFloat($(this).val());
+			old_abs = parseFloat(orig_data[row_num][1]);
+			ratio = parseFloat(new_abs / old_abs);
+			// set target row
+			target_row = $('.y2015').get(row_num);
+			targets = $(target_row).find('td :disabled');
+			$(targets).each(function(){
+				old_val = $(this).val();
+				new_val = Math.round(parseFloat(old_val * ratio));
+				$(this).val(new_val);
+			})
+
+			// loop though target
+		})
 	} else {
 		$('#team_form .AB input').each(function () {
 			$(this).attr('disabled', "");
@@ -22,6 +38,8 @@ function scale_ab () {
 }
 
 // index() and get()
+// d = $('.AB input').get(3) // or use this
+// $('.AB input').index(d) // returns 3
 
 function make_orig_array () {
 	orig_data = []
