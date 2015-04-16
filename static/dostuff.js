@@ -32,28 +32,11 @@ function add_2014_buttons() {
 }
 
 $('#reset_form').on('click', function(){
-	// alert('Clicked!!!');
-	//document.getElementById('form2').reset() // sorta worked
 	ensure_enabled();
-	//set_form_2015();
 	reset_form();
-	//	set_form_2015();
-	/*stat_list = $('#custom2 th'); // [1:] use innerText
-	target = $('#custom2 input');
-	for (var i = 1; i < stat_list.length; i++) {
-		target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
-	};*/
 });
 
 $('#submit').on('click', function(){
-	/*
-	var greyed = $('input:disabled');
-	if (greyed.length > 0) {
-		for (var i = 0; i < greyed.length; i++) {
-			greyed[i].removeAttribute('disabled');
-		};
-	}
-	*/
 	ensure_enabled();
 	document.getElementById('form2').submit();
 })
