@@ -9,7 +9,15 @@ $(document).ready(function(){
 	});
 	$('.y162 .Year').text('Career');
 	calc162avg();
+	$('#career_toggle').click(function() {
+		$('.y162').toggle();
+	});
+	$('#avg162_toggle').click(function(){
+		$('.y162avg').toggle();
+	});
+
 });
+
 
 function add_wOBA () {
 	// $('#wOBA_add').slideUp(); // better at the bottom, but...
