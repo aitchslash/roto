@@ -1,12 +1,14 @@
 $(document).ready(function(){
 	add_wOBA();
-	$('.Year').hide();
+	//$('.Year').hide();
 	$('#teamtable').dataTable({
 		"paging": false,
 		"info": false,
 		"searching": false,
 		"order": [[20, "desc"]] // this i.e. [20] is wOBA
 	});
+	$('.y162 .Year').text('Career');
+	calc162avg();
 });
 
 function add_wOBA () {
@@ -47,7 +49,7 @@ function calc162avg() {
 			var games = parseFloat($(career).find('.G').text());
 			var pos = $(career).find('.POS').text();
 			var wOBA = $(career).find('.wOBA').text();
-			var avg162 = $("<tr id = 162avg><td class='fullname'>" + name + "</td><td class='POS'>" + pos + "<td class='Year'>162avg</td></tr>");
+			var avg162 = $("<tr class = y162avg><td class='fullname'>" + name + "</td><td class='POS'>" + pos + "<td class='Year'>162avg</td></tr>");
 			var stuff = career.children()
 			for (var i = 3; i < stuff.length - 1; i++) {
 				new_class = career.children()[i].getAttribute('class');
@@ -57,7 +59,7 @@ function calc162avg() {
 			$('<td></td>').text(wOBA).addClass('wOBA').appendTo(avg162);
 			var target = $("tr:visible:contains('" + name +"')");
 			$(target).after($(career));
-			$('.Year').show();
+			// $('.Year').show();
 			// $(career).show();
 			$(target).after($(avg162));
 		};
