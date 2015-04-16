@@ -30,7 +30,7 @@
 	<tbody>
 {% for entry in player_data %}
 <tr class="y{{ entry.Batting.yearID }}">
-	<td class="fullname">{{ entry.Player.name }} </td>
+	<td class="fullname"><a href="{{ url_for('EditPlayer', playerID=entry.Player.lahmanID)}}"> {{ entry.Player.name }} </a></td>
 	<td class="POS">{{ entry.Player.pos }} </td>
 	<td class="Year">{{ entry.Batting.yearID }} </td>
 	<td class="G">{{ entry.Batting.G }}</td>

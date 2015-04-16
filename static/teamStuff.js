@@ -15,6 +15,8 @@ $(document).ready(function(){
 	$('#avg162_toggle').click(function(){
 		$('.y162avg').toggle();
 	});
+	// remove <a> tag from career
+	$('.y162 .fullname a').replaceWith(function() { return this.innerHTML; });
 
 });
 
