@@ -33,7 +33,7 @@
 	<td class="POS">{{ entry.Player.pos }} </td>
 	<td class="Year">{{ entry.Batting.yearID }} </td>
 	<td class="G"><input name="G" type ="number" min="0" max="162" disabled value="{{ entry.Batting.G }}"></td>
-	<td class="AB"><input name="AB" type="number" min="0" max="700" value="{{ entry.Batting.AB }}"></td>
+	<td class="AB"><input name="AB" type="number" min="0" max="700" disabled value="{{ entry.Batting.AB }}"></td>
 	<td class="H"><input name="H" type="number" min="0" max="300" disabled value="{{ entry.Batting.H }}"></td>
 	<td class="R"><input name="R" type="number" min="0" max="150" disabled value="{{ entry.Batting.R }}"></td>
 	<td class="2B"><input name="2B" type="number" min="0" max="100" disabled value="{{ entry.Batting.doubles }}"></td>
@@ -52,8 +52,10 @@
 {% endfor %}
 	</tbody>
 </table>
+<div class="button" id="ab_scale">Scale to AB</div>
+<div class="button" id="submit">SUBMIT</div>
+<script src="/static/teamEdit.js" type='text/javascript'></script>
 <!--
-<script src="/static/teamStuff.js" type='text/javascript'></script>
 <script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 -->
 {% endblock %}
