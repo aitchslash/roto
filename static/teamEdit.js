@@ -10,5 +10,12 @@ function scale_ab () {
 			// console.log($(this).val());
 			// console.log(this)
 		})
-	};
+	} else {
+		$('#team_form .AB input').each(function () {
+			$(this).attr('disabled', "");
+			// console.log($(this).val());
+			// console.log(this)
+		})
+
+	}
 }

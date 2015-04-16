@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$('#wOBA_add').click(function(){
 		add_wOBA();
-		$('#wOBA_formula').removeClass();
+		// $('#wOBA_formula').removeClass();
 	})
 })
 
