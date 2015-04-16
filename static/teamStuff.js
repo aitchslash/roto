@@ -42,21 +42,25 @@ function calc162avg() {
 		//console.log($('.y162').find(".fullname").text($(this)));
 		//console.log($(this).text());
 		var name = $(this).text();
-		var career = ($(".y162:contains('" + name + "')")); // working
-		var games = parseFloat($(career).find('.G').text());
-		var avg162 = $("<tr id = 162avg><td class='fullname'>" + name + "</td><td class='Year' style:'display:hidden;'>162avg</td></tr>");
-		var stuff = career.children()
-		for (var i = 3; i < stuff.length - 1; i++) {
-			new_class = career.children()[i].getAttribute('class');
-			new_number = parseFloat(parseFloat(stuff[i].innerText) * 162 / games).toFixed(0);
-			$('<td></td>').text(new_number).addClass(new_class).appendTo(avg162);
+		if (name != "Name") {
+			var career = ($(".y162:contains('" + name + "')")); // working
+			var games = parseFloat($(career).find('.G').text());
+			var pos = $(career).find('.POS').text();
+			var wOBA = $(career).find('.wOBA').text();
+			var avg162 = $("<tr id = 162avg><td class='fullname'>" + name + "</td><td class='POS'>" + pos + "<td class='Year'>162avg</td></tr>");
+			var stuff = career.children()
+			for (var i = 3; i < stuff.length - 1; i++) {
+				new_class = career.children()[i].getAttribute('class');
+				new_number = parseFloat(parseFloat(stuff[i].innerText) * 162 / games).toFixed(0);
+				$('<td></td>').text(new_number).addClass(new_class).appendTo(avg162);
+			};
+			$('<td></td>').text(wOBA).addClass('wOBA').appendTo(avg162);
+			var target = $("tr:visible:contains('" + name +"')");
+			$(target).after($(career));
+			$('.Year').show();
+			// $(career).show();
+			$(target).after($(avg162));
 		};
-		var target = $("tr:visible:contains('" + name +"')");
-		$(target).after($(career))
-		$(career).show()
-		$(target).after($(avg162))
-		//console.log(name)
-		// ($('table').append($(".y162:contains('" + name + "')");
 	})
 }
 
