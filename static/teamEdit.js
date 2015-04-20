@@ -54,3 +54,22 @@ function make_orig_array () {
 	})
 	return orig_data;
 }
+
+function ensure_enabled() {
+	var greyed = $('input:disabled');
+	if (greyed.length > 0) {
+		for (var i = 0; i < greyed.length; i++) {
+			greyed[i].removeAttribute('disabled');
+		};
+	}
+}
+
+function disable_all() {
+	var not_disabled = $('input:enabled');
+	// console.log(not_disabled)
+	if (not_disabled.length > 0) {
+		for (var i = 0; i < not_disabled.length; i++) {
+			not_disabled[i].setAttribute("disabled", true);
+		};
+	}
+}
