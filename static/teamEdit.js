@@ -55,8 +55,14 @@ function make_orig_array () {
 	return orig_data;
 }
 
-function ensure_enabled() {
-	var greyed = $('input:disabled');
+
+
+function enable_column(column_name) {
+	if (column_name === 'undefined' || column_name == "*") {
+		var greyed = $('input:disabled');
+	} else {
+		var greyed = $("." + column_name + ' input:disabled');
+	};
 	if (greyed.length > 0) {
 		for (var i = 0; i < greyed.length; i++) {
 			greyed[i].removeAttribute('disabled');
