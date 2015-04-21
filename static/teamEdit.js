@@ -7,6 +7,9 @@ $(document).ready(function () {
 		scale_ab();
 
 })
+	$('#g_scale').on('click', function () {
+		scale_g();
+	})
 
 $('#reset').on('click', function(){
 	reset();
@@ -24,9 +27,31 @@ function reset () {
 }
 
 
+function scale_g() {
+	// set all col's to disabled, enable col "G"
+	disable_all();
+	enable_column("G");
+	$('.G input').change(function () {
+			var row_num = ($('.G input').index($(this)));
+			new_g = parseFloat($(this).val());
+			old_g = parseFloat(orig_data[row_num][0]);
+			ratio = parseFloat(new_g / old_g);
+			// set target row
+			target_row = $('.y2015').get(row_num);
+			targets = $(target_row).find('td :disabled');
+			$(targets).each(function(index){
+				// old_val = $(this).val();
+				old_val = orig_data[row_num][index + 1]
+				new_val = Math.round(parseFloat(old_val * ratio));
+				$(this).val(new_val);
+			})
+	})
+}
 
 
 // should refactor the removeAttr to use the enable f(x)
+// may want to refactor as scale to column
+//  ---- use orig_data instead of old_val --- //
 function scale_ab () {
 	if ($('#team_form .AB :enabled').length == 0) {
 		// console.log('HERERERERERE');
@@ -76,7 +101,7 @@ function make_orig_array () {
 }
 
 
-
+// use "column_name" to enable one col or "*"" for all
 function enable_column(column_name) {
 	if (column_name === 'undefined' || column_name == "*") {
 		var greyed = $('input:disabled');
