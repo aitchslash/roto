@@ -40,7 +40,6 @@ function scale_g() {
 			target_row = $('.y2015').get(row_num);
 			targets = $(target_row).find('td :disabled');
 			$(targets).each(function(index){
-				// old_val = $(this).val();
 				old_val = orig_data[row_num][index + 1]
 				new_val = Math.round(parseFloat(old_val * ratio));
 				$(this).val(new_val);
@@ -49,42 +48,33 @@ function scale_g() {
 }
 
 
-// should refactor the removeAttr to use the enable f(x)
 // may want to refactor as scale to column
-//  ---- use orig_data instead of old_val --- //
 function scale_ab () {
-	if ($('#team_form .AB :enabled').length == 0) {
-		// console.log('HERERERERERE');
-		$('#team_form .AB input').each(function () {
-			$(this).removeAttr('disabled');
+	disable_all();
+	enable_column("AB");
+	
+	$('.AB input').change(function () {
+		var row_num = ($('.AB input').index($(this)));
+		new_abs = parseFloat($(this).val());
+		old_abs = parseFloat(orig_data[row_num][1]);
+		ratio = parseFloat(new_abs / old_abs);
+		// set target row
+		target_row = $('.y2015').get(row_num);
+		targets = $(target_row).find('td :disabled');
+		$(targets).each(function(index){
+			//old_val = $(this).val();
+			if (index == 0) {
+				var dex = index;
+			} else{
+				var dex = index + 1;
+			};
+			old_val = orig_data[row_num][dex]
+			new_val = Math.round(parseFloat(old_val * ratio));
+			$(this).val(new_val);
 		})
-		$('.AB input').change(function () {
-			var row_num = ($('.AB input').index($(this)));
-			new_abs = parseFloat($(this).val());
-			old_abs = parseFloat(orig_data[row_num][1]);
-			ratio = parseFloat(new_abs / old_abs);
-			// set target row
-			target_row = $('.y2015').get(row_num);
-			targets = $(target_row).find('td :disabled');
-			$(targets).each(function(){
-				old_val = $(this).val();
-				new_val = Math.round(parseFloat(old_val * ratio));
-				$(this).val(new_val);
-			})
-
-			// loop though target
-		})
-	} else {
-		$('#team_form .AB input').each(function () {
-			$(this).attr('disabled', "");
-		})
-
-	}
+	})
 }
 
-// index() and get()
-// d = $('.AB input').get(3) // or use this
-// $('.AB input').index(d) // returns 3
 
 function make_orig_array () {
 	orig_data = []
