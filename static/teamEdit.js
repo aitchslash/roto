@@ -34,6 +34,7 @@ function scale_g() {
 	$('.G input').change(function () {
 			var row_num = ($('.G input').index($(this)));
 			new_g = parseFloat($(this).val());
+			if (new_g >= 0 && new_g <= 162) {
 			old_g = parseFloat(orig_data[row_num][0]);
 			ratio = parseFloat(new_g / old_g);
 			// set target row
@@ -44,6 +45,10 @@ function scale_g() {
 				new_val = Math.round(parseFloat(old_val * ratio));
 				$(this).val(new_val);
 			})
+		} else {
+			// message flash
+			console.log("G must be >0 and < 162");
+		}
 	})
 }
 
@@ -58,6 +63,7 @@ function scale_ab () {
 		new_abs = parseFloat($(this).val());
 		old_abs = parseFloat(orig_data[row_num][1]);
 		ratio = parseFloat(new_abs / old_abs);
+		var new_games = Math.round(parseFloat(orig_data[row_num][0] * ratio))
 		// set target row
 		target_row = $('.y2015').get(row_num);
 		targets = $(target_row).find('td :disabled');
@@ -65,12 +71,21 @@ function scale_ab () {
 			//old_val = $(this).val();
 			if (index == 0) {
 				var dex = index;
-			} else{
+				
+			} else {
 				var dex = index + 1;
 			};
 			old_val = orig_data[row_num][dex]
 			new_val = Math.round(parseFloat(old_val * ratio));
-			$(this).val(new_val);
+			if (new_games >= 0 && new_games <=162) {
+				$(this).val(new_val);
+			} else {
+				// reset to either 0 or 162
+				// message flash
+				// might want to call scale_g and autofix to 162g
+				console.log("more/less than a season of games");
+			}
+			
 		})
 	})
 }
