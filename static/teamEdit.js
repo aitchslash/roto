@@ -1,12 +1,32 @@
 $(document).ready(function () {
 	scale_ab();
 	orig_data = make_orig_array()
+}) // likely want to put other functions in here properly
+
+	$('#ab_scale').on('click', function(){
+		scale_ab();
+
 })
 
-$('#ab_scale').on('click', function(){
-	scale_ab();
-})
+$('#reset').on('click', function(){
+	reset();
+});
 
+function reset () {
+	var target_rows = document.getElementsByClassName('y2015');
+	$(target_rows).each(function(){
+		var i = $(this).index()
+		var tds = $(this).find('input')
+		$(tds).each(function(index){
+			$(this).val(orig_data[i][index])
+		})
+	})	
+}
+
+
+
+
+// should refactor the removeAttr to use the enable f(x)
 function scale_ab () {
 	if ($('#team_form .AB :enabled').length == 0) {
 		// console.log('HERERERERERE');
