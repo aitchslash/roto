@@ -50,7 +50,9 @@ def PlayerPage(playerID):
 def editTeam(teamID):
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
     if request.method == "POST":
-        pass
+        print "Postage!"
+        # render_template('team_edit.html', team_data=team_batting_data)
+        return redirect(url_for('teamPage', teamID=teamID))
     else:
         return render_template('team_edit.html', team_data=team_batting_data)
 

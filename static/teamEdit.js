@@ -15,6 +15,11 @@ $('#reset').on('click', function(){
 	reset();
 });
 
+$('#submit').on('click', function(){
+	enable_column("*");
+	document.getElementById('team_form').submit();
+})
+
 function reset () {
 	var target_rows = document.getElementsByClassName('y2015');
 	$(target_rows).each(function(){
@@ -53,7 +58,7 @@ function scale_g() {
 }
 
 
-// may want to refactor as scale to column
+// may want to refactor w/ scale_g as scale to column
 function scale_ab () {
 	disable_all();
 	enable_column("AB");

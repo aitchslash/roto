@@ -1,6 +1,6 @@
 {% extends "base2.html" %}
 {% block content %}
-<form id="team_form">
+<form id="team_form" action="{{ url_for('editTeam', teamID=team_data[0].Player.teamID )}}" method='POST'>
 <table id="teamtable">
 	<thead>
 	<tr>
