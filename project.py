@@ -51,6 +51,15 @@ def editTeam(teamID):
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
     if request.method == "POST":
         print "Postage!"
+        form_data = request.values
+        print "length: " + str(len(form_data))
+        # print form_data[0]
+        # for key, value in form_data.iterlists():
+        # print key, value
+        # joeyH = request.form['bautijo02H']
+        # print joeyH
+        ids = form_data.getlist('lahmanID')
+        print ids
         # render_template('team_edit.html', team_data=team_batting_data)
         return redirect(url_for('teamPage', teamID=teamID))
     else:

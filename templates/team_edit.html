@@ -24,6 +24,7 @@
 		<th class="GIDP">GIDP</th>
 		<th class="SO">SO</th>
 		<th class="SH">SH</th>
+		<th class="id">ID</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -34,21 +35,22 @@
 	<td class="Year">{{ entry.Batting.yearID }} </td>
 	<td class="G"><input name="G" type ="number" min="0" max="162" disabled value="{{ entry.Batting.G }}"></td>
 	<td class="AB"><input name="AB" type="number" min="0" max="700" disabled value="{{ entry.Batting.AB }}"></td>
-	<td class="H"><input name="H" type="number" min="0" max="300" disabled value="{{ entry.Batting.H }}"></td>
-	<td class="R"><input name="R" type="number" min="0" max="150" disabled value="{{ entry.Batting.R }}"></td>
-	<td class="2B"><input name="2B" type="number" min="0" max="100" disabled value="{{ entry.Batting.doubles }}"></td>
-	<td class="3B"><input name="3B" type="number" min="0" max="50" disabled value="{{ entry.Batting.triples }}"></td>
-	<td class="HR"><input name="HR" type="number" min="0" max="100" disabled value="{{ entry.Batting.HR }}"></td>
-	<td class="RBI"><input name="RBI" type="number" min="0" max="200" disabled value="{{ entry.Batting.RBI }}"></td>
-	<td class="SB"><input name="SB" type="number" min="0" max="150" disabled value="{{ entry.Batting.SB }}"></td>
-	<td class="CS"><input name="CS" type="number" min="0" max="100" disabled value="{{ entry.Batting.CS }}"></td>
-	<td class="IBB"><input name="IBB" type="number" min="0" max="150" disabled value="{{ entry.Batting.IBB}}"></td>
-	<td class="BB"><input name="BB" type="number" min="0" max="150" disabled value="{{ entry.Batting.BB  }}"></td>
-	<td class="HBP"><input name="HBP" type="number" min="0" max="50" disabled value="{{ entry.Batting.HBP  }}"></td>
-	<td class="SF"><input name="SF" type="number" min="0" max="100" disabled value="{{ entry.Batting.SF  }}"></td>
-	<td class="GIDP"><input name="GIDP" type="number" min="0" max="100" disabled value="{{ entry.Batting.GIDP  }}"></td>
-	<td class="SO"><input name="SO" type="number" min="0" max="300" disabled value="{{ entry.Batting.SO  }}"></td>
-	<td class="SH"><input name="SH" type="number" min="0" max="100" disabled value="{{ entry.Batting.SH  }}"></td>
+	<td class="H"><input name="{{ entry.Player.lahmanID}}H" type="number" min="0" max="300" disabled value="{{ entry.Batting.H }}"></td>
+	<td class="R"><input name="{{ entry.Player.lahmanID}}R" type="number" min="0" max="150" disabled value="{{ entry.Batting.R }}"></td>
+	<td class="2B"><input name="{{ entry.Player.lahmanID}}2B" type="number" min="0" max="100" disabled value="{{ entry.Batting.doubles }}"></td>
+	<td class="3B"><input name="{{ entry.Player.lahmanID}}3B" type="number" min="0" max="50" disabled value="{{ entry.Batting.triples }}"></td>
+	<td class="HR"><input name="{{ entry.Player.lahmanID}}HR" type="number" min="0" max="100" disabled value="{{ entry.Batting.HR }}"></td>
+	<td class="RBI"><input name="{{ entry.Player.lahmanID}}RBI" type="number" min="0" max="200" disabled value="{{ entry.Batting.RBI }}"></td>
+	<td class="SB"><input name="{{ entry.Player.lahmanID}}SB" type="number" min="0" max="150" disabled value="{{ entry.Batting.SB }}"></td>
+	<td class="CS"><input name="{{ entry.Player.lahmanID}}CS" type="number" min="0" max="100" disabled value="{{ entry.Batting.CS }}"></td>
+	<td class="IBB"><input name="{{ entry.Player.lahmanID}}IBB" type="number" min="0" max="150" disabled value="{{ entry.Batting.IBB}}"></td>
+	<td class="BB"><input name="{{ entry.Player.lahmanID}}BB" type="number" min="0" max="150" disabled value="{{ entry.Batting.BB  }}"></td>
+	<td class="HBP"><input name="{{ entry.Player.lahmanID}}HBP" type="number" min="0" max="50" disabled value="{{ entry.Batting.HBP  }}"></td>
+	<td class="SF"><input name="{{ entry.Player.lahmanID}}SF" type="number" min="0" max="100" disabled value="{{ entry.Batting.SF  }}"></td>
+	<td class="GIDP"><input name="{{ entry.Player.lahmanID}}GIDP" type="number" min="0" max="100" disabled value="{{ entry.Batting.GIDP  }}"></td>
+	<td class="SO"><input name="{{ entry.Player.lahmanID}}SO" type="number" min="0" max="300" disabled value="{{ entry.Batting.SO  }}"></td>
+	<td class="SH"><input name="{{ entry.Player.lahmanID}}SH" type="number" min="0" max="100" disabled value="{{ entry.Batting.SH  }}"></td>
+	<td class="id"><input name="lahmanID" type="text" disabled value="{{ entry.Player.lahmanID }}"></td>
 {% endfor %}
 	</tbody>
 </table>
