@@ -4,21 +4,7 @@
 
 #statstable td{text-align: center;}
 
-.IBB {display: none;}
-
-.BB {display: none;}
-
-.HBP {display: none;}
-
-.GIDP {display: none;}
-
-.CS {display: none;}
-
-.SF {display: none;}
-
-.SO {display: none;}
-
-.SH {display: none;}
+.IBB, .BB, .HBP,.GIDP, .CS, .SF, .SO, .SH, .id {display: none;}
 
 a, a:visited {text-decoration: none;
 	color: black;}
