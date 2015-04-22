@@ -52,24 +52,13 @@ def editTeam(teamID):
     if request.method == "POST":
         print "Postage!"
         form_data = request.values
-        print "length: " + str(len(form_data))
-        # print form_data[0]
-        # for key, value in form_data.iterlists():
-        # print key, value
-        # joeyH = request.form['bautijo02H']
-        # print joeyH
         ids = form_data.getlist('lahmanID')
-
         print ids
         # loop through players, grab data, commit new objs
         for lahmanID in ids:
-            # entry obj
+            print lahmanID
             batter_obj = session.query(Batting).filter(Batting.lahmanID == lahmanID, Batting.yearID == 2015).one()
-            # print "ID: " + lahmanID + "  HR: " + request.form[lahmanID + "AB"]
-            # print "  G: " + request.form[lahmanID + "G"]
             batter_obj.G = request.form[lahmanID + "G"]
-            # print batter_obj.G
-
             batter_obj.AB = request.form[lahmanID + "AB"]
             batter_obj.H = request.form[lahmanID + "H"]
             batter_obj.CS = request.form[lahmanID + "CS"]
@@ -86,8 +75,9 @@ def editTeam(teamID):
             batter_obj.GIDP = request.form[lahmanID + "GIDP"]
             batter_obj.SH = request.form[lahmanID + "SH"]
             batter_obj.SF = request.form[lahmanID + "SF"]
-
-            # render_template('team_edit.html', team_data=team_batting_data)
+            session.add(batter_obj)
+            session.commit()
+            # flash team updated
         return redirect(url_for('teamPage', teamID=teamID))
     else:
         return render_template('team_edit.html', team_data=team_batting_data)

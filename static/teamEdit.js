@@ -44,7 +44,7 @@ function scale_g() {
 			ratio = parseFloat(new_g / old_g);
 			// set target row
 			target_row = $('.y2015').get(row_num);
-			targets = $(target_row).find('td :disabled');
+			targets = $(target_row).find('td:not(.id) :disabled');
 			$(targets).each(function(index){
 				old_val = orig_data[row_num][index + 1]
 				new_val = Math.round(parseFloat(old_val * ratio));
@@ -71,7 +71,8 @@ function scale_ab () {
 		var new_games = Math.round(parseFloat(orig_data[row_num][0] * ratio))
 		// set target row
 		target_row = $('.y2015').get(row_num);
-		targets = $(target_row).find('td :disabled');
+		// targets = $(target_row).find('td :disabled');  // old line
+		targets = $(target_row).find('td:not(.id) :disabled');
 		$(targets).each(function(index){
 			//old_val = $(this).val();
 			if (index == 0) {
