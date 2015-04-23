@@ -107,6 +107,14 @@ $('#game_scale').on('click', function(){
 	}
 })
 
+/*  date = $('#dob input').val
+prop valueAsDate
+age
+target = $('#dob')
+make age element
+age element after target
+*/
+
 function calculateAge(birthday) { // birthday is a date
     var ageDifMs = Date.now() - birthday.getTime();
     var ageDate = new Date(ageDifMs); // miliseconds from epoch
