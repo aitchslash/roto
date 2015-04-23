@@ -19,7 +19,7 @@ function ensure_enabled() {
 }
 
 function half_and_half () {
-	$('input').each(function(){
+	$('#datums input').each(function(){
 		var name = this.name;
 		// console.log(name);
 		stat = Math.round(mlb_avg_2014[name]);
@@ -32,7 +32,7 @@ function half_and_half () {
 }
 
 function set_mlbavg () {
-	$('input').each(function(){
+	$('#datums input').each(function(){
 		var name = this.name;
 		// console.log(name);
 		stat = Math.round(mlb_avg_2014[name]);
@@ -40,6 +40,41 @@ function set_mlbavg () {
 		$(this).val(stat);
 	})
 }
+
+$('#game_scale').on('click', function(){
+	var origG = parseInt($('#datums input').val());
+	orig_data = [];
+	a = $('#datums input');
+	for (i=0; i < a.length; i++) {orig_data.push(a[i].value)}
+	// var origG = parseInt(document.getElementById('Ginput').defaultValue) // worrks for 2015
+	// console.log(orig_data);
+	var inputs = $('#datums input');
+	if ($('#datums input:disabled').length == 0) {
+		for (var i = 1; i < inputs.length; i++) {
+			inputs[i].setAttribute('disabled', true);
+		};
+		$('#Ginput').change(function(event){
+			var games = parseInt($(this).val());
+			// console.log(event.type);
+			if (games >= 0 && games <= 162) {
+				for (var i = 1; i < inputs.length; i++) {
+					//inputs[i].value = Math.round((games / origG) * inputs[i].defaultValue)
+					// var gamez = parseInt($('input').val());
+					inputs[i].value = Math.round(parseFloat(games / parseInt(orig_data[0])) * parseInt(orig_data[i]));
+				};
+			} else {
+				console.log('Not!!!') //
+			};
+			
+		})
+		.change();
+	} else {
+		// console.log('here');
+		for (var i = 1; i < inputs.length; i++) {
+			inputs[i].removeAttribute('disabled');
+		}
+	}
+})
 
 mlb_avg_2014 = {'SF': 3.5171288189190566, 'GIDP': 9.95372243662762, 'AB': 456.1360784780428, 
 	'PA': 506.57671840731734, 'G': 162.0, 'HR': 11.529131743144221, 'Season': '2014', 
