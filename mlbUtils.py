@@ -431,6 +431,7 @@ def makeTeamDictMlbLahman():
     return mlb_teamid_lahman
 
 
+# makes select list for copy and pasting
 def makeTeamSelectList():
     teams_dict = makeTeamDictMlbLahman()
     keys = teams_dict.keys()
