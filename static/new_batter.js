@@ -44,7 +44,6 @@ function set_mlbavg () {
 function add_ten(x) {
 	var plus = ["H", "R", "2B", "3B", "HR", "RBI", "SB", "BB", "IBB", "HBP", "SF", "SH"]
 	var minus = ["CS", "SO", "GIDP"]
-	console.log("got here")
 	if (x === true) {
 		var multiplier = 1.10;
 	} else {
@@ -52,26 +51,22 @@ function add_ten(x) {
 	}
 	$('#datums input').each(function(){
 		var current_value = $(this).val();
-		var name = this.name;
-		console.log(current_value);
-		console.log(name);
-		var a = plus.indexOf(name);
-		var b = minus.indexOf(name);
-		if (a >= 0) {
-			console.log(multiplier)
+		if (plus.indexOf(this.name) >= 0) {
+			$(this).val(Math.round(current_value * multiplier));
 		}
-		if (b >= 0) {
-			console.log(1 / multiplier)
+		if (minus.indexOf(this.name) >= 0) {
+			$(this).val(Math.round(current_value *(1 / multiplier)));
 		}
-
 	})
-
 }
 
 $('#plus_10').on('click', function() {
-	console.log("here first");
 	add_ten(true);
 })
+
+$('#minus_10').on('click', function() {
+	add_ten(false);
+} )
 
 $('#all_fields').on('click', function(){
 	$('.extra').toggle();
@@ -111,6 +106,12 @@ $('#game_scale').on('click', function(){
 		}
 	}
 })
+
+function calculateAge(birthday) { // birthday is a date
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
 
 mlb_avg_2014 = {'SF': 3.5171288189190566, 'GIDP': 9.95372243662762, 'AB': 456.1360784780428, 
 	'PA': 506.57671840731734, 'G': 162.0, 'HR': 11.529131743144221, 'Season': '2014', 
