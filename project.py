@@ -64,7 +64,7 @@ def editTeam(teamID):
         print ids
         # loop through players, grab data, commit new objs
         for lahmanID in ids:
-            print lahmanID
+            # print lahmanID
             batter_obj = session.query(Batting).filter(Batting.lahmanID == lahmanID, Batting.yearID == 2015).one()
             batter_obj.G = request.form[lahmanID + "G"]
             batter_obj.AB = request.form[lahmanID + "AB"]
