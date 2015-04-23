@@ -41,6 +41,38 @@ function set_mlbavg () {
 	})
 }
 
+function add_ten(x) {
+	var plus = ["H", "R", "2B", "3B", "HR", "RBI", "SB", "BB", "IBB", "HBP", "SF", "SH"]
+	var minus = ["CS", "SO", "GIDP"]
+	console.log("got here")
+	if (x === true) {
+		var multiplier = 1.10;
+	} else {
+		var multiplier = 0.90
+	}
+	$('#datums input').each(function(){
+		var current_value = $(this).val();
+		var name = this.name;
+		console.log(current_value);
+		console.log(name);
+		var a = plus.indexOf(name);
+		var b = minus.indexOf(name);
+		if (a >= 0) {
+			console.log(multiplier)
+		}
+		if (b >= 0) {
+			console.log(1 / multiplier)
+		}
+
+	})
+
+}
+
+$('#plus_10').on('click', function() {
+	console.log("here first");
+	add_ten(true);
+})
+
 $('#all_fields').on('click', function(){
 	$('.extra').toggle();
 })
