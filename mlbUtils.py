@@ -429,3 +429,12 @@ def makeTeamDictMlbLahman():
     for i in range(0, 30):
         mlb_teamid_lahman[mlb[i][1]] = lahman_teamids[i][0]
     return mlb_teamid_lahman
+
+
+def makeTeamSelectList():
+    teams_dict = makeTeamDictMlbLahman()
+    keys = teams_dict.keys()
+    keys.sort()
+    for key in keys:
+        select_line = '<option value="{}">{}</option>'.format(teams_dict[key], key)
+        print select_line
