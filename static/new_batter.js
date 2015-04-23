@@ -41,6 +41,10 @@ function set_mlbavg () {
 	})
 }
 
+$('#all_fields').on('click', function(){
+	$('.extra').toggle();
+})
+
 $('#game_scale').on('click', function(){
 	var origG = parseInt($('#datums input').val());
 	orig_data = [];
