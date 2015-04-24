@@ -3,8 +3,8 @@
 <h1> Create New Batter </h1>
 <form id="new_player" action="{{ url_for('newPlayer')}}" method='POST'>
 	<div id="name_inputs">
-		<input name="given" type="text" placeholder='First Name' style="text-align:left" />
-		<input name="last" type="text" placeholder='Last Name' style="text-align:left" />
+		<input name="given" type="text" placeholder='First Name' style="text-align:left" required>
+		<input name="last" type="text" placeholder='Last Name' style="text-align:left" required>
 	</div>
 	<div id="team_picker">Team:
 		<select name="team">
@@ -40,9 +40,9 @@
 			<option value="WAS">was</option>
 		</select>
 	</div>
-	<div id="dob">DOB &nbsp <input name="dob" type="date" />Age:
+	<div id="dob">DOB &nbsp <input name="dob" type="date" required>Age:
 		<span id="age"></span>
-		<span id="hidden_age"><input name="age" /></span>
+		<span id="hidden_age"><input name="age" required></span>
 	</div>
 	<div id="pos">Positon
 		<select name="position">
@@ -81,22 +81,22 @@
 		<tr id="datums">
 			<td class="firstCol">projection</td>
 			<td><input id="Ginput" name="G" type="number" min="0" max="162"></td>
-			<td><input name="AB" type="number" min="0" max="700"></td>
-			<td><input name="H" type="text" maxlength="3" size="4"></td>
-			<td><input name="R" type="text" maxlength="3" size="4"></td>
-			<td><input name="2B" type="text" maxlength="3" size="4"></td>
-			<td><input name="3B" type="text" maxlength="3" size="4"></td>
-			<td><input name="HR" type="text" maxlength="3" size="4"></td>
-			<td><input name="RBI" type="text" maxlength="3" size="4"></td>
-			<td><input name="SB" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="CS" type="number" min="0" max="700"></td>
-			<td><input class="extra" name="BB" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="IBB" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="SO" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="HBP" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="GIDP" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="SF" type="text" maxlength="3" size="4"></td>
-			<td><input class="extra" name="SH" type="text" maxlength="3" size="4"></td>
+			<td><input name="AB" type="number" min="0" max="700" required></td>
+			<td><input name="H" type="text" maxlength="3" size="4" required></td>
+			<td><input name="R" type="text" maxlength="3" size="4" required></td>
+			<td><input name="2B" type="text" maxlength="3" size="4" required></td>
+			<td><input name="3B" type="text" maxlength="3" size="4" required></td>
+			<td><input name="HR" type="text" maxlength="3" size="4" required></td>
+			<td><input name="RBI" type="text" maxlength="3" size="4" required></td>
+			<td><input name="SB" type="text" maxlength="3" size="4" required></td>
+			<td><input class="extra" name="CS" type="number" min="0" max="700" required></td>
+			<td><input class="extra" name="BB" type="text" maxlength="3" size="4" required></td>
+			<td><input class="extra" name="IBB" type="text" maxlength="3" size="4" required></td>
+			<td><input class="extra" name="SO" type="text" maxlength="3" size="4" required></td>
+			<td><input class="extra" name="HBP" type="text" maxlength="3" size="4" required></td>
+			<td><input class="extra" name="GIDP" type="text" maxlength="3" size="4" required></td>
+			<td><input class="extra" name="SF" type="text" maxlength="3" size="4 required"></td>
+			<td><input class="extra" name="SH" type="text" maxlength="3" size="4" required></td>
 		</tr>
 	</table>
 	</div>
