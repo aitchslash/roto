@@ -7,6 +7,19 @@ $(document).ready(function(){
 		ensure_enabled();
 		half_and_half();
 	})
+	$('#dob input').change(function(){
+	var dob = $('#dob input')[0].valueAsDate;
+	if (dob != null) {
+	var age = calculateAge(dob);
+		if (typeof(age) == "number") {
+			// find age_div
+			// set text to new value
+			$('#age').text(age);
+			$('#hidden_age input').val(age);
+			}
+		}
+	})
+	.change();
 })
 
 function ensure_enabled() {
@@ -114,6 +127,7 @@ $('#submit').on('click', function(){
 
 
 // works but throws an exception at start, should wrap in doc.ready
+/*
 $('#dob input').change(function(){
 	var dob = $('#dob input')[0].valueAsDate;
 	var age = calculateAge(dob);
@@ -126,6 +140,7 @@ $('#dob input').change(function(){
 
 })
 .change();
+*/
 
 function calculateAge(dob) { // dob is a date
     var ageDifMs = Date.now() - dob.getTime();
