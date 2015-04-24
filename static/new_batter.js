@@ -107,16 +107,22 @@ $('#game_scale').on('click', function(){
 	}
 })
 
-/*  date = $('#dob input').val
-prop valueAsDate
-age
-target = $('#dob')
-make age element
-age element after target
-*/
+// works but throws an exception at start, should wrap in doc.ready
+$('#dob input').change(function(){
+	var dob = $('#dob input')[0].valueAsDate;
+	console.log(typeof(dob))
+	var age = calculateAge(dob);
+	if (typeof(age) == "number") {
+		// find age_div
+		// set text to new value
+		$('#age').text(age);
+	}
 
-function calculateAge(birthday) { // birthday is a date
-    var ageDifMs = Date.now() - birthday.getTime();
+})
+.change();
+
+function calculateAge(dob) { // dob is a date
+    var ageDifMs = Date.now() - dob.getTime();
     var ageDate = new Date(ageDifMs); // miliseconds from epoch
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
