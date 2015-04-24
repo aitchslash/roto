@@ -22,8 +22,22 @@ $(document).ready(function(){
 	.change();
 })
 
-function ensure_enabled() {
+function ensure_enabled() {  // for a input row
 	var greyed = $('input:disabled');
+	if (greyed.length > 0) {
+		for (var i = 0; i < greyed.length; i++) {
+			greyed[i].removeAttribute('disabled');
+		};
+	}
+}
+
+// use "column_name" to enable one col or "*"" for all
+function enable_column(column_name) {
+	if (column_name === 'undefined' || column_name == "*") {
+		var greyed = $('input:disabled');
+	} else {
+		var greyed = $("." + column_name + ' input:disabled');
+	};
 	if (greyed.length > 0) {
 		for (var i = 0; i < greyed.length; i++) {
 			greyed[i].removeAttribute('disabled');
@@ -122,9 +136,10 @@ $('#game_scale').on('click', function(){
 	}
 })
 
-// need to make age an input prior to submit
 $('#submit').on('click', function(){
-	//
+	console.log("got here");
+	enable_column("*");
+	// document.getElementById('new_player').submit();
 })
 
 

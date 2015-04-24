@@ -46,10 +46,45 @@ def PlayerPage(playerID):
     '''
 
 
+# may need to wrap lahmanID builder in try catch w/ db queries
+# other error handling might be cool too
 @app.route('/player/new/', methods=['GET', 'POST'])
 def newPlayer():
     if request.method == 'POST':
-        pass
+        fullname = request.form['given'] + request.form['last']
+        lahman_id = request.form['last'][:5] + request.form['given'] + "09"  # 9 should be safe
+        new_player = Player(name=fullname,
+                            lahmanID=lahman_id,
+                            age=request.form['age'],
+                            # mlbID = 999999,  # hmm, non unique, does it matter?
+                            dob=request.form['dob'],
+                            pos=request.form['pos'],
+                            teamID=request.form['team'])
+        session.add(new_player)
+        session.commit()  # likely have to commit here so that the Batting has a place to go
+        np_stats = Batting(lahmanID=lahman_id,
+                           yearID=2015,
+                           teamID=request.form['team'],
+                           G=request.form["G"],
+                           AB=request.form["AB"],
+                           H=request.form["H"],
+                           CS=request.form["CS"],
+                           IBB=request.form["IBB"],
+                           R=request.form["R"],
+                           doubles=request.form["2B"],
+                           triples=request.form["3B"],
+                           HR=request.form["HR"],
+                           RBI=request.form["RBI"],
+                           SB=request.form["SB"],
+                           BB=request.form["BB"],
+                           SO=request.form["SO"],
+                           HBP=request.form["HBP"],
+                           GIDP=request.form["GIDP"],
+                           SH=request.form["SH"],
+                           SF=request.form["SF"])
+        session.add(np_stats)
+        session.commit()
+        return render_template('player.html', playerID=lahman_id)
     else:
         return render_template('newPlayer.html')
 
