@@ -107,15 +107,21 @@ $('#game_scale').on('click', function(){
 	}
 })
 
+// need to make age an input prior to submit
+$('#submit').on('click', function(){
+	//
+})
+
+
 // works but throws an exception at start, should wrap in doc.ready
 $('#dob input').change(function(){
 	var dob = $('#dob input')[0].valueAsDate;
-	console.log(typeof(dob))
 	var age = calculateAge(dob);
 	if (typeof(age) == "number") {
 		// find age_div
 		// set text to new value
 		$('#age').text(age);
+		$('#hidden_age input').val(age);
 	}
 
 })

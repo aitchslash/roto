@@ -4,7 +4,7 @@
 
 #statstable td{text-align: center;}
 
-.IBB, .BB, .HBP,.GIDP, .CS, .SF, .SO, .SH, .id {display: none;}
+.IBB, .BB, .HBP,.GIDP, .CS, .SF, .SO, .SH, .id, #hidden_age {display: none;}
 
 a, a:visited {text-decoration: none;
 	color: black;}
