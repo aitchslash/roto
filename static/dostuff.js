@@ -45,7 +45,7 @@ $('#submit').on('click', function(){
 
 $('#game_scale').on('click', function(){
 	var origG = parseInt($('input').val());
-	orig_data = [];
+	var orig_data = [];
 	a = $('input');
 	for (i=0; i < a.length; i++) {orig_data.push(a[i].value)}
 	// var origG = parseInt(document.getElementById('Ginput').defaultValue) // worrks for 2015

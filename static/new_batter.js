@@ -32,14 +32,15 @@ function ensure_enabled() {
 }
 
 function half_and_half () {
-	$('#datums input').each(function(){
+	var orig_data = []
+	inputs = $('#datums input');
+	ratio = parseFloat($(inputs).val() / 162);
+	for (i=0; i < inputs.length; i++) {orig_data.push(inputs[i].value)}
+	$('#datums input').each(function(index){
 		var name = this.name;
-		// console.log(name);
-		stat = Math.round(mlb_avg_2014[name]);
-		// console.log(stat);
-		stat2 = Math.round($('#full2015 .' + name).text());
-		//console.log(stat2);
-		combo = Math.round((stat2 + stat) * 0.5)
+		half_stat = Math.round(mlb_avg_2014[name]) * ratio;
+		old_stat = Math.round($(this).val());
+		combo = Math.round((half_stat + old_stat) * 0.5)
 		$(this).val(combo);
 	})
 }
@@ -85,9 +86,10 @@ $('#all_fields').on('click', function(){
 	$('.extra').toggle();
 })
 
+
 $('#game_scale').on('click', function(){
 	var origG = parseInt($('#datums input').val());
-	orig_data = [];
+	var orig_data = [];
 	a = $('#datums input');
 	for (i=0; i < a.length; i++) {orig_data.push(a[i].value)}
 	// var origG = parseInt(document.getElementById('Ginput').defaultValue) // worrks for 2015
@@ -125,22 +127,6 @@ $('#submit').on('click', function(){
 	//
 })
 
-
-// works but throws an exception at start, should wrap in doc.ready
-/*
-$('#dob input').change(function(){
-	var dob = $('#dob input')[0].valueAsDate;
-	var age = calculateAge(dob);
-	if (typeof(age) == "number") {
-		// find age_div
-		// set text to new value
-		$('#age').text(age);
-		$('#hidden_age input').val(age);
-	}
-
-})
-.change();
-*/
 
 function calculateAge(dob) { // dob is a date
     var ageDifMs = Date.now() - dob.getTime();
