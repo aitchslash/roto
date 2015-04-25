@@ -47,38 +47,30 @@ def PlayerPage(playerID):
 
 
 # may need to wrap lahmanID builder in try catch w/ db queries
+# using "09" as a kluge suffix to enable id generation w/o access to lahman db
+# could try to access - catch: use suffix
 # other error handling might be cool too
 @app.route('/player/new/', methods=['GET', 'POST'])
 def newPlayer():
     if request.method == 'POST':
         fullname = request.form['given'] + " " + request.form['last']
-        print fullname
         lahman_id = (request.form['last'][:5] + request.form['given'][:2] + "09").lower()  # 9 should be safe
-        print lahman_id
-        print request.form['age']
-        print request.form['dob']
-        print request.form['position']
-        team_id = request.form['teamID']
-        print request.form['teamID']
-        # teamID = request.form.get('team')
-        print team_id
-        '''
+        team_id = request.form['teamID']  # need this for the redirect
+
         new_player = Player(name=fullname,
                             lahmanID=lahman_id,
                             age=int(request.form['age']),
                             mlbID=999999,  # hmm, non unique, does it matter?
                             dob=str(request.form['dob']),
-                            pos=request.form['pos'],
-                            teamID=request.form['team'])
-        print new_player
+                            pos=request.form['position'],
+                            teamID=request.form['teamID'])
         session.add(new_player)
         session.commit()  # likely have to commit here so that the Batting has a place to go
-        '''
-        print "Player committed"
-        '''
+        # print "Player committed"
+
         np_stats = Batting(lahmanID=lahman_id,
                            yearID=2015,
-                           teamID=request.form['team'],
+                           teamID=request.form['teamID'],
                            G=request.form["G"],
                            AB=request.form["AB"],
                            H=request.form["H"],
@@ -98,8 +90,7 @@ def newPlayer():
                            SF=request.form["SF"])
         session.add(np_stats)
         session.commit()
-        '''
-        # return render_template('player.html', playerID=lahman_id)
+
         return redirect(url_for('teamPage', teamID=team_id))
     else:
         return render_template('newPlayer.html')
