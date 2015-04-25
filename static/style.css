@@ -22,6 +22,10 @@ a, a:visited {text-decoration: none;
 	background-color: green;
 }
 
+.button a {
+	color: white;
+}
+
 .button:hover {
 	border: 1px solid black;
 }
