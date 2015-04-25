@@ -94,7 +94,12 @@ def deletePlayer(playerID):
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
     if request.method == "POST":
-        pass
+        session.delete(player_stats)
+        session.delete(player_data)
+        session.commit()
+        print "deleted"
+        # flash ("Player successfully deleted")
+        return redirect('teamPage.html', teamID=player_data.teamID)
     else:
         print "go to delete page"
         return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats)
