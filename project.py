@@ -93,13 +93,18 @@ def deletePlayer(playerID):
     # might want to convert the two queries to one
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+    team_id = player_data.teamID
+    # print team_id
     if request.method == "POST":
-        session.delete(player_stats)
+        # the below loop was needed prior to cascade
+        '''
+        for year in player_stats:
+            session.delete(year)'''
         session.delete(player_data)
         session.commit()
         print "deleted"
         # flash ("Player successfully deleted")
-        return redirect('teamPage.html', teamID=player_data.teamID)
+        return redirect(url_for('teamPage', teamID=team_id))
     else:
         print "go to delete page"
         return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats)

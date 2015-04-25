@@ -2,7 +2,7 @@ import psycopg2
 from sqlalchemy import (Column, Integer, String, ForeignKey,
                         MetaData)
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy import create_engine
 
 # Player doesn't need user, nb gone
@@ -29,11 +29,10 @@ class Player(Base):
     dob = Column(String(10))
     pos = Column(String(2))
     teamID = Column(String(3))
+    # hitting = relationship("Batting", backref='master')  # to include cascade
+    # hitting = relationship("Batting", backref=backref('master', cascade='single_parent=True, all, delete-orphan'))
 
-    hitting = relationship("Batting", backref='master')
-
-
-''' need unique refs to user/lahmanID/yearID,
+    ''' need unique refs to user/lahmanID/yearID,
     foreign key to user/lahmanID
     ??? default = 0 for stats or NULL ???
     yearID in batting is SERIAL, problem???
@@ -45,7 +44,8 @@ class Batting(Base):
     __tablename__ = 'batting'
     # disabling user, moving to Predictions
     user = Column(Integer, default=1, primary_key=True)
-    lahmanID = Column(String(9), ForeignKey('master.lahmanID'), primary_key=True)
+    # not sure if primary key need nullable=false, just making sure cascade works
+    lahmanID = Column(String(9), ForeignKey('master.lahmanID'), primary_key=True, nullable=False)
     yearID = Column(Integer(4), primary_key=True)
     teamID = Column(String(3))
     G = Column(Integer(3))
@@ -65,6 +65,9 @@ class Batting(Base):
     GIDP = Column(Integer(3))
     SF = Column(Integer(3))
     SH = Column(Integer(3))
+    # trying relationship here, works above
+    hitting = relationship(
+        Player, backref=backref('master', uselist=True, cascade='delete, all'))
 
 
 # this is currently garbage
