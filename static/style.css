@@ -6,6 +6,8 @@
 
 .IBB, .BB, .HBP,.GIDP, .CS, .SF, .SO, .SH, .id, #hidden_age {display: none;}
 
+#team_hidden, #pos_hidden {display: none;}
+
 a, a:visited {text-decoration: none;
 	color: black;}
 

@@ -139,7 +139,10 @@ $('#game_scale').on('click', function(){
 $('#submit').on('click', function(){
 	console.log("got here");
 	enable_column("*");
-	// document.getElementById('new_player').submit();
+	// kluge to get selects working
+	$('#team_hidden').val($('select')[0].value);
+	$('#pos_hidden').val($('select')[1].value);
+	document.getElementById('new_player').submit();
 })
 
 

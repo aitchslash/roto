@@ -51,17 +51,31 @@ def PlayerPage(playerID):
 @app.route('/player/new/', methods=['GET', 'POST'])
 def newPlayer():
     if request.method == 'POST':
-        fullname = request.form['given'] + request.form['last']
-        lahman_id = request.form['last'][:5] + request.form['given'] + "09"  # 9 should be safe
+        fullname = request.form['given'] + " " + request.form['last']
+        print fullname
+        lahman_id = (request.form['last'][:5] + request.form['given'][:2] + "09").lower()  # 9 should be safe
+        print lahman_id
+        print request.form['age']
+        print request.form['dob']
+        print request.form['position']
+        team_id = request.form['teamID']
+        print request.form['teamID']
+        # teamID = request.form.get('team')
+        print team_id
+        '''
         new_player = Player(name=fullname,
                             lahmanID=lahman_id,
-                            age=request.form['age'],
-                            # mlbID = 999999,  # hmm, non unique, does it matter?
-                            dob=request.form['dob'],
+                            age=int(request.form['age']),
+                            mlbID=999999,  # hmm, non unique, does it matter?
+                            dob=str(request.form['dob']),
                             pos=request.form['pos'],
                             teamID=request.form['team'])
+        print new_player
         session.add(new_player)
         session.commit()  # likely have to commit here so that the Batting has a place to go
+        '''
+        print "Player committed"
+        '''
         np_stats = Batting(lahmanID=lahman_id,
                            yearID=2015,
                            teamID=request.form['team'],
@@ -84,7 +98,9 @@ def newPlayer():
                            SF=request.form["SF"])
         session.add(np_stats)
         session.commit()
-        return render_template('player.html', playerID=lahman_id)
+        '''
+        # return render_template('player.html', playerID=lahman_id)
+        return redirect(url_for('teamPage', teamID=team_id))
     else:
         return render_template('newPlayer.html')
 

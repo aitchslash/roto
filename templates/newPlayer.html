@@ -39,6 +39,7 @@
 			<option value="TOR" selected>tor</option>
 			<option value="WAS">was</option>
 		</select>
+		<input id="team_hidden" name="teamID" type="text">
 	</div>
 	<div id="dob">DOB &nbsp <input name="dob" type="date" required>Age:
 		<span id="age"></span>
@@ -56,6 +57,7 @@
 			<option value="LF">LF</option>
 			<option value="DH">DH</option>
 		</select>
+		<input id="pos_hidden" name="position" type="text">
 	</div>
 	<div id="stats15"><table>
 		<tr>
@@ -109,11 +111,13 @@
 	<div class="button" id="half_and_half">0.5*MLB avg, 0.5*2015</div>
 	<br/>
 	<div class="button" id="submit">SUBMIT</div>
-	<div id="notes">
-		<p>plus 10% may represent a decent trade</p>
-		<p>minus 10% for a AAA scrub filler</p>
-	</div>
-	<script src="/static/new_batter.js" type='text/javascript'></script>
+	
+	
 </form>
+<div id="notes">
+	<p>plus 10% may represent a decent trade</p>
+	<p>minus 10% for a AAA scrub filler</p>
+</div>
+<script src="/static/new_batter.js" type='text/javascript'></script>
 
 {% endblock %}
