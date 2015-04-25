@@ -32,18 +32,10 @@ def teamPage(teamID):
 
 @app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
 def PlayerPage(playerID):
+    # might want to convert the two queries to one
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
     return render_template('player.html', player_data=player_data, player_stats=player_stats)
-    '''
-    player_data = session.query(Player).filter(Player.lahmanID == id).one()
-    player_stats = session.query(Batting).filter(Batting.lahmanID == id, Batting.yearID >= 2012,
-                                                 Batting.yearID <= 2014).order_by(Batting.yearID).all()
-    career_stats = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 162).one()
-    proj_stats = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
-    return render_template('player.html', player_data=player_data, player_stats=player_stats,
-                           career_stats=career_stats, proj_stats=proj_stats)
-    '''
 
 
 # may need to wrap lahmanID builder in try catch w/ db queries
@@ -94,6 +86,18 @@ def newPlayer():
         return redirect(url_for('teamPage', teamID=team_id))
     else:
         return render_template('newPlayer.html')
+
+
+@app.route('/player/<playerID>/delete/', methods=['GET', 'POST'])
+def deletePlayer(playerID):
+    # might want to convert the two queries to one
+    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
+    player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+    if request.method == "POST":
+        pass
+    else:
+        print "go to delete page"
+        return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats)
 
 
 @app.route('/team/<teamID>/edit/', methods=['GET', 'POST'])
