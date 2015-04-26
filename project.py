@@ -89,7 +89,7 @@ def newPlayer():
             print e
             # flash oops
             # raise e
-            return redirect(url_for('errorPage', error="IntegrityError"))
+            return redirect(url_for('errorPage', error=e))
         '''
         finally:
             session.remove()'''
@@ -114,9 +114,9 @@ def deletePlayer(playerID):
     # print team_id
     if request.method == "POST":
         # the below loop was needed prior to cascade
-        '''
+        # scratch that, IS needed; cascade not working
         for year in player_stats:
-            session.delete(year)'''
+            session.delete(year)
         session.delete(player_data)
         session.commit()
         print "deleted"
