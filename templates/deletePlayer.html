@@ -3,7 +3,7 @@
 {{ super() }}
 <h2>Confirm player delete</h2>
 
-<div class="button" id="back_team"><a href="{{url_for('TeamPage', teamID=player_data.teamID)}}"> Back to team page</div>
+<div class="button" id="back_team"><a href="{{url_for('TeamPage', teamID=player_data.teamID)}}"> Back to team page</a></div>
 <div class="button" id="back_edit"><a href="{{url_for('EditPlayer', playerID=player_data.lahmanID)}}">Back to edit page</a></div>
 <form id="confirm_delete" action="{{url_for('deletePlayer', playerID=player_data.lahmanID)}}" method="POST">
 <div class="button" id="delete">Confirm Delete</div>
