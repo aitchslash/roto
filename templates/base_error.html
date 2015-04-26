@@ -1,5 +1,11 @@
 {% extends "base_player.html" %}
 {% block content %}
 <h1>Oops, something went awry</h1>
+
+<script type="text/javascript">
+	var addy = document.referrer;
+	var back_button = $('<div class="button"><a href="' + addy + '"">Go Back</a></div>');
+	$('h1').after(back_button[0]);
+</script>
 {% endblock %}
 
