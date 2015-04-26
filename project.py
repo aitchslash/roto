@@ -83,7 +83,7 @@ def newPlayer():
             session.add(np_stats)
             session.commit()
 
-        except exc.IntegrityError as e:
+        except exc.SQLAlchemyError as e:
             session.rollback()
             print "Player Id already exists, oops"
             print e
