@@ -111,12 +111,16 @@ def deletePlayer(playerID):
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
     team_id = player_data.teamID
-    # print team_id
+    print team_id
     if request.method == "POST":
+        print "Did post"
         # the below loop was needed prior to cascade
-        # scratch that, IS needed; cascade not working
+        # scratch that, IS needed; cascade not working, yes it IS
+        '''
         for year in player_stats:
             session.delete(year)
+        session.commit()
+        print "did first bit" '''
         session.delete(player_data)
         session.commit()
         print "deleted"
