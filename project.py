@@ -95,7 +95,7 @@ def newPlayer():
             session.remove()'''
         print "Player committed"
 
-        return redirect(url_for('teamPage', teamID=team_id))
+        return redirect(url_for('editTeam', teamID=team_id))
     else:
         return render_template('newPlayer.html')
 
