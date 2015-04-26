@@ -48,21 +48,24 @@ def newPlayer():
         fullname = request.form['given'] + " " + request.form['last']
         lahman_id = (request.form['last'][:5] + request.form['given'][:2] + "09").lower()  # 9 should be safe
         team_id = request.form['teamID']  # need this for the redirect
+        try:
+            new_player = Player(name=fullname,
+                                lahmanID=lahman_id,
+                                age=int(request.form['age']),
+                                mlbID=999999,  # hmm, non unique, does it matter?
+                                dob=str(request.form['dob']),
+                                pos=request.form['position'],
+                                teamID=request.form['teamID'])
+        except ValueError as ve:
+            return redirect(url_for('errorPage', error=ve))
 
-        new_player = Player(name=fullname,
-                            lahmanID=lahman_id,
-                            age=int(request.form['age']),
-                            mlbID=999999,  # hmm, non unique, does it matter?
-                            dob=str(request.form['dob']),
-                            pos=request.form['position'],
-                            teamID=request.form['teamID'])
         session.add(new_player)
         try:
             session.commit()  # likely have to commit here so that the Batting has a place to go
         except exc.SQLAlchemyError as e:
             session.rollback()
             print "Error commiting Player Info"
-            return redirect(url_for('errorPage', error=e))
+            return redirect(url_for('errorPage', error="likely a duplicate entry"))
 
         np_stats = Batting(lahmanID=lahman_id,
                            yearID=2015,
@@ -91,8 +94,9 @@ def newPlayer():
             session.rollback()
             #  need to delete player entry
             aborted_player = session.query(Player).filter(Player.lahmanID == lahman_id)
-            session.delete(aborted_player)
-            session.commit()
+            if aborted_player:
+                session.delete(aborted_player)
+                session.commit()
             return redirect(url_for('errorPage', error=e))
 
         '''
