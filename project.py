@@ -59,37 +59,50 @@ def newPlayer():
         session.add(new_player)
         try:
             session.commit()  # likely have to commit here so that the Batting has a place to go
-
-            np_stats = Batting(lahmanID=lahman_id,
-                               yearID=2015,
-                               teamID=request.form['teamID'],
-                               G=request.form["G"],
-                               AB=request.form["AB"],
-                               H=request.form["H"],
-                               CS=request.form["CS"],
-                               IBB=request.form["IBB"],
-                               R=request.form["R"],
-                               doubles=request.form["2B"],
-                               triples=request.form["3B"],
-                               HR=request.form["HR"],
-                               RBI=request.form["RBI"],
-                               SB=request.form["SB"],
-                               BB=request.form["BB"],
-                               SO=request.form["SO"],
-                               HBP=request.form["HBP"],
-                               GIDP=request.form["GIDP"],
-                               SH=request.form["SH"],
-                               SF=request.form["SF"])
-            session.add(np_stats)
-            session.commit()
-
         except exc.SQLAlchemyError as e:
             session.rollback()
-            print "Player Id already exists, oops"
+            print "Error commiting Player Info"
+            return redirect(url_for('errorPage', error=e))
+
+        np_stats = Batting(lahmanID=lahman_id,
+                           yearID=2015,
+                           teamID=request.form['teamID'],
+                           G=request.form["G"],
+                           AB=request.form["AB"],
+                           H=request.form["H"],
+                           CS=request.form["CS"],
+                           IBB=request.form["IBB"],
+                           R=request.form["R"],
+                           doubles=request.form["2B"],
+                           triples=request.form["3B"],
+                           HR=request.form["HR"],
+                           RBI=request.form["RBI"],
+                           SB=request.form["SB"],
+                           BB=request.form["BB"],
+                           SO=request.form["SO"],
+                           HBP=request.form["HBP"],
+                           GIDP=request.form["GIDP"],
+                           SH=request.form["SH"],
+                           SF=request.form["SF"])
+        session.add(np_stats)
+        try:
+            session.commit()
+        except exc.SQLAlchemyError as e:
+            session.rollback()
+            #  need to delete player entry
+            aborted_player = session.query(Player).filter(Player.lahmanID == lahman_id)
+            session.delete(aborted_player)
+            session.commit()
+            return redirect(url_for('errorPage', error=e))
+
+        '''
+        except exc.SQLAlchemyError as e:
+            session.rollback()
+            print "Player Id (likely) already exists, oops"
             print e
             # flash oops
             # raise e
-            return redirect(url_for('errorPage', error=e))
+            return redirect(url_for('errorPage', error=e))'''
         '''
         finally:
             session.remove()'''
