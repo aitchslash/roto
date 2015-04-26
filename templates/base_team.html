@@ -53,6 +53,7 @@
 {% endfor %}
 	</tbody>
 </table>
+<div class="button" id="edit_team"><a href="{{ url_for('editTeam', teamID=teamID) }}"> Edit Team</a></div>
 <script src="/static/teamStuff.js" type='text/javascript'></script>
 <script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 {% endblock %}

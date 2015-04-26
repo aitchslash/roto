@@ -27,7 +27,7 @@ def HelloWorld():
 @app.route('/team/<teamID>/')
 def teamPage(teamID):
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
-    return render_template('base_team.html', player_data=team_batting_data)
+    return render_template('base_team.html', player_data=team_batting_data, teamID=teamID)
 
 
 @app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
@@ -187,15 +187,6 @@ def EditPlayer(playerID):
     else:
         return render_template('player_edit.html', player_data=player_data,
                                player_stats=player_stats)  # , mod=modifier, projmod=proj_mod)
-
-
-@app.route('/team/<teamID>')
-def TeamPage(teamID):
-    output = ""
-    player_list = session.query(Batting.lahmanID).filter(Batting.teamID == teamID, Batting.yearID == 2015).all()
-    for row in player_list:
-        output += row.lahmanID + "<br>"
-    return output
 
 
 if __name__ == "__main__":
