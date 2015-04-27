@@ -4,7 +4,7 @@
 		{% if title %}
 		<title>{{ title }} </title>
 		{% else %}
-		<title>Welcome to Project 3</title>
+		<title>Rotostar</title>
 		{% endif %}
 		<meta charset="utf-8">
 		<meta name="description" content="Project for Udacity's Full Stack Program">
@@ -15,9 +15,54 @@
   		<link rel="stylesheet" type="text/css" href="/static/style.css" />
 	</head>
 	<body>
-		<div>Rotostar <a href="/index">Home</a></div>
+		<span id="home_link"><a href="/index">Rotostar Home</a></span>
+		
+		<span id="team_nav">
+		<form id="team_sel">Team Pages:
+			<select name="team">
+				<option value="{{ url_for('teamPage', teamID='LAA') }}">ana</option>
+				<option value="{{ url_for('teamPage', teamID='ARI') }}">ari</option>
+				<option value="{{ url_for('teamPage', teamID='ATL') }}">atl</option>
+				<option value="{{ url_for('teamPage', teamID='BAL') }}">bal</option>
+				<option value="{{ url_for('teamPage', teamID='BOS') }}">bos</option>
+				<option value="{{ url_for('teamPage', teamID='CHN') }}">chc</option>
+				<option value="{{ url_for('teamPage', teamID='CIN') }}">cin</option>
+				<option value="{{ url_for('teamPage', teamID='CLE') }}">cle</option>
+				<option value="{{ url_for('teamPage', teamID='COL') }}">col</option>
+				<option value="{{ url_for('teamPage', teamID='CHA') }}">cws</option>
+				<option value="{{ url_for('teamPage', teamID='DET') }}">det</option>
+				<option value="{{ url_for('teamPage', teamID='HOU') }}">hou</option>
+				<option value="{{ url_for('teamPage', teamID='KCA') }}">kc</option>
+				<option value="{{ url_for('teamPage', teamID='LAN') }}">la</option>
+				<option value="{{ url_for('teamPage', teamID='MIA') }}">mia</option>
+				<option value="{{ url_for('teamPage', teamID='MIL') }}">mil</option>
+				<option value="{{ url_for('teamPage', teamID='MIN') }}">min</option>
+				<option value="{{ url_for('teamPage', teamID='NYN') }}">nym</option>
+				<option value="{{ url_for('teamPage', teamID='NYA') }}">nyy</option>
+				<option value="{{ url_for('teamPage', teamID='OAK') }}">oak</option>
+				<option value="{{ url_for('teamPage', teamID='PHI') }}">phi</option>
+				<option value="{{ url_for('teamPage', teamID='PIT') }}">pit</option>
+				<option value="{{ url_for('teamPage', teamID='SDN') }}">sd</option>
+				<option value="{{ url_for('teamPage', teamID='SEA') }}">sea</option>
+				<option value="{{ url_for('teamPage', teamID='SFN') }}">sf</option>
+				<option value="{{ url_for('teamPage', teamID='SLN') }}">stl</option>
+				<option value="{{ url_for('teamPage', teamID='TBA') }}">tb</option>
+				<option value="{{ url_for('teamPage', teamID='TEX') }}">tex</option>
+				<option value="{{ url_for('teamPage', teamID='TOR') }}">tor</option>
+				<option value="{{ url_for('teamPage', teamID='WAS') }}">was</option>
+			</select>
+			
+		</form>
+		<span id="team_go" class="button">GO to Team</span>
+		</span>
 		<hr>
 		{% block content %}{% endblock %}
-	
+		<script type="text/javascript">
+			$('#team_go').on('click', function() {
+				var team = $('#team_sel select').val();
+				console.log(team);
+				window.location.replace(team);
+			})
+		</script>
 	</body>
 </html>
