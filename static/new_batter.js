@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	set_team();
 	$('#avg2014').click(function(){
 		ensure_enabled();
 		set_mlbavg();
@@ -20,7 +21,15 @@ $(document).ready(function(){
 		}
 	})
 	.change();
+	
 })
+
+function set_team() {
+	var urlString = window.location.href;
+	var splitter = urlString.indexOf("=");
+	var teamID = urlString.substring(splitter + 1);
+	$('#team_picker select').val(teamID)
+}
 
 function ensure_enabled() {  // for a input row
 	var greyed = $('input:disabled');
