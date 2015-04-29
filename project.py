@@ -244,14 +244,14 @@ def EditPlayer(playerID):
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
     login_session['state'] = state
-    # print 'login_session["state"] = %s' % login_session['state']
+    print 'login_session["state"] = %s' % login_session['state']
     # return "The current sessionstate is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
-
+    print "got here"
     print 'received state of %s' % request.args.get('state')
     print 'here the login_session["state"] = %s' % login_session['state']
     if request.args.get('state') != login_session['state']:
