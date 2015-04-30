@@ -1,5 +1,5 @@
 import psycopg2
-from db_setup import Base, Player, Batting
+from db_setup import Base, Player, Batting, User
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import pickle
@@ -44,6 +44,7 @@ def insertPlayersPsql(team_dict, lahm_team_id):
     """ adds players to pqsl master list by team """
     for lahmanID in team_dict:
         player_object = Player(lahmanID=lahmanID,
+                               user_id=1,
                                name=team_dict[lahmanID]['name'],
                                age=team_dict[lahmanID]['age'],
                                dob=team_dict[lahmanID]['dob'],

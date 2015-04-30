@@ -44,9 +44,9 @@ def teamPage(teamID):
 
 
 @app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
-def PlayerPage(playerID):
+def PlayerPage(playerID, user_id=1):
     # might want to convert the two queries to one
-    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
+    player_data = session.query(Player).filter(Player.lahmanID == playerID, Player.user_id == user_id).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
     return render_template('player.html', player_data=player_data, player_stats=player_stats)
 

@@ -15,14 +15,22 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 metadata = MetaData()  # new, goes w/ import above
 
+'''
+class User(Base):
+    __tablename__ = 'user'
+    user_id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    email = Column(String(250, nullable=False)
+'''
+
 ''' Might want to make tighter restrictions e.g. age=int(2)
     and nullable=False and dob to a datetime '''
 
 
 class Player(Base):
     __tablename__ = 'master'
-    # user = Column(Integer, default=1, primary_key=True)  # nb
-    lahmanID = Column(String(9), primary_key=True)
+    lahmanID = Column(String(9), primary_key=True, nullable=False)
+    # user_id = Column(Integer, ForeignKey('user.id'), primary_key=True, nullable=False)  # nb
     name = Column(String)
     age = Column(Integer)
     mlbID = Column(Integer(6))
@@ -42,10 +50,10 @@ class Player(Base):
 
 class Batting(Base):
     __tablename__ = 'batting'
-    # disabling user, moving to Predictions
-    user = Column(Integer, default=1, primary_key=True)
-    # not sure if primary key need nullable=false, just making sure cascade works
     lahmanID = Column(String(9), ForeignKey('master.lahmanID'), primary_key=True, nullable=False)
+    # disabling user, moving to Predictions
+    user = Column(Integer, ForeignKey('user.id'), primary_key=True)
+    # not sure if primary key need nullable=false, just making sure cascade works
     yearID = Column(Integer(4), primary_key=True)
     teamID = Column(String(3))
     G = Column(Integer(3))
@@ -70,6 +78,17 @@ class Batting(Base):
         Player, backref=backref('master', uselist=True, cascade='delete, all'))
 
 
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(250))
+    name = Column(String(250))
+    picture = Column(String(250))
+
+    user_proj = relationship(Batting, backref=backref('batting'))
+    # main_id = relationship(Player)
+
+
 # this is currently garbage
 '''
 class MasterBattingLink(Base):
@@ -87,6 +106,6 @@ class MasterBattingLink(Base):
 
 # #### insert at end of file ######
 
-engine = create_engine('postgresql://ben:superstar@localhost/roto', echo=True)  # convert_unicode = True
+engine = create_engine('postgresql://ben:superstar@localhost/roto2', echo=True)  # convert_unicode = True
 
 Base.metadata.create_all(engine)
