@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import pickle
 
 
-engine = create_engine('postgresql://ben:superstar@localhost/roto', echo=True)  # convert_unicode = True
+engine = create_engine('postgresql://ben:superstar@localhost/roto2', echo=True)  # convert_unicode = True
 # engine = create_engine('mysql://root:@localhost:3306/lahman14', echo=True)
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)

@@ -20,7 +20,7 @@ import requests
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 
 # make postgresql engine
-engine = create_engine('postgresql://ben:superstar@localhost/roto')
+engine = create_engine('postgresql://ben:superstar@localhost/roto2')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
