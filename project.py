@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 from sqlalchemy import create_engine, exc
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Player, Batting
+from db_setup import Base, Player, Batting, User
 import random
 import string
 
@@ -44,9 +44,9 @@ def teamPage(teamID):
 
 
 @app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
-def PlayerPage(playerID, user_id=1):
+def PlayerPage(playerID):
     # might want to convert the two queries to one
-    player_data = session.query(Player).filter(Player.lahmanID == playerID, Player.user_id == user_id).one()
+    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
     return render_template('player.html', player_data=player_data, player_stats=player_stats)
 
@@ -327,7 +327,7 @@ def gconnect():
     # print login_session['email']
 
     # see if user exists, if it doesn't make a new one
-    '''
+
     user_id = getUserID(data["email"])
     if not user_id:
         user_id = createUser(login_session)
@@ -339,11 +339,12 @@ def gconnect():
 
         output += '!</h1>'
         output += '<img src="'
-        output += login_session['picture'] '''
-    # output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    # flash("you are now logged in as %s" % login_session['username'])
-    # return output
+        output += login_session['picture']
+        output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+        flash("you are now logged in as %s" % login_session['username'])
+        return output
 
+    '''
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -353,7 +354,7 @@ def gconnect():
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
-    return output
+    return output'''
 
 
 # Disconnect by revoking a user's token and resetting the login_session
@@ -387,6 +388,28 @@ def gdisconnect():
         response = make_response(json.dumps('Failed to revoke token'), 400)
         response.headers['Content-Type'] = 'application/json'
         return response
+
+
+# User helpers
+def createUser(login_session):
+    new_user = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
+    session.add(new_user)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 if __name__ == "__main__":
     app.secret_key = 'super_secret_key'
