@@ -3,6 +3,8 @@ import psycopg2
 import pickle
 import pymysql
 
+# ### using user=1 for initial db population ### #
+
 # this works
 # db = MySQLdb.connect('192.168.56.1', 'benjamin', 'plutarch', 'lahman14')
 # cur = db.cursor()
