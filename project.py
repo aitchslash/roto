@@ -37,18 +37,20 @@ def HelloWorld():
     return output
 
 
+# @app.route('/team/')
 @app.route('/team/<teamID>/')
 def teamPage(teamID):
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
     return render_template('base_team.html', player_data=team_batting_data, teamID=teamID)
 
 
-@app.route('/player/<playerID>/')  # might want to use a converter and/or regex  # user specific too
-def PlayerPage(playerID):
+@app.route('/player/<playerID>/', defaults={'user_id': 1})
+@app.route('/player/<playerID>/<int:user_id>/')  # might want to use a converter and/or regex  # user specific too
+def PlayerPage(playerID, user_id):
     # might want to convert the two queries to one
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
-    return render_template('player.html', player_data=player_data, player_stats=player_stats)
+    return render_template('player.html', player_data=player_data, player_stats=player_stats, user_id=user_id)
 
 
 # may need to wrap lahmanID builder in try catch w/ db queries
@@ -198,8 +200,10 @@ def editTeam(teamID):
         return render_template('team_edit.html', team_data=team_batting_data)
 
 
-@app.route('/player/<playerID>/edit/', methods=['GET', 'POST'])
-def EditPlayer(playerID):
+@app.route('/player/<playerID>/edit/<int:user_id>/', methods=['GET', 'POST'])
+def EditPlayer(playerID, user_id):
+    # print login_session('username')
+    # user_id = getUserInfo(login_session)
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
 
@@ -237,7 +241,7 @@ def EditPlayer(playerID):
         return redirect(url_for('PlayerPage', playerID=playerID))
     else:
         return render_template('player_edit.html', player_data=player_data,
-                               player_stats=player_stats)  # , mod=modifier, projmod=proj_mod)
+                               player_stats=player_stats, user_id=user_id)  # , mod=modifier, projmod=proj_mod)
 
 
 @app.route('/login/')

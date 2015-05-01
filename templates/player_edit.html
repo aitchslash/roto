@@ -4,7 +4,7 @@
 <div class="button" id="wOBA_add">Add wOBA</div>
 
 <div id = "custom2">
-<form id="form2" action="{{ url_for('EditPlayer', playerID=player_data.lahmanID )}}" method='POST'>
+<form id="form2" action="{{ url_for('EditPlayer', playerID=player_data.lahmanID, user_id=user_id )}}" method='POST'>
 	<table>
 		<tr>
 			<th class='firstCol'></th>

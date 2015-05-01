@@ -1,6 +1,8 @@
 {% extends "base_player.html" %}
 {% block content %}
 {{ super() }}
-<div class="button" id="do_edit"><a href={{ url_for('EditPlayer', playerID=player_data.lahmanID) }}>Edit 2015</a></div>
+<div class="button" id='do_edit'>
+	<a href="{{ url_for('EditPlayer', playerID=player_data.lahmanID, user_id=user_id) }}">Edit 2015</a>
+</div>
 <script src="/static/dostuff.js" type='text/javascript'></script>
 {% endblock %}
