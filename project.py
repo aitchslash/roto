@@ -37,11 +37,11 @@ def HelloWorld():
     return output
 
 
-# @app.route('/team/')
-@app.route('/team/<teamID>/')
-def teamPage(teamID):
+@app.route('/team/<teamID>/', defaults={'user_id': 1})
+@app.route('/team/<teamID>/<int:user_id>')
+def teamPage(teamID, user_id):
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
-    return render_template('base_team.html', player_data=team_batting_data, teamID=teamID)
+    return render_template('base_team.html', player_data=team_batting_data, user_id=user_id)
 
 
 @app.route('/player/<playerID>/', defaults={'user_id': 1})
@@ -163,8 +163,8 @@ def deletePlayer(playerID):
         return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats)
 
 
-@app.route('/team/<teamID>/edit/', methods=['GET', 'POST'])
-def editTeam(teamID):
+@app.route('/team/<teamID>/edit/<int:user_id>/', methods=['GET', 'POST'])
+def editTeam(teamID, user_id):
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
     if request.method == "POST":
         print "Postage!"
@@ -195,9 +195,9 @@ def editTeam(teamID):
             session.add(batter_obj)
             session.commit()
             # flash team updated
-        return redirect(url_for('teamPage', teamID=teamID))
+        return redirect(url_for('teamPage', teamID=teamID, user_id=user_id))
     else:
-        return render_template('team_edit.html', team_data=team_batting_data)
+        return render_template('team_edit.html', team_data=team_batting_data, user_id=user_id)
 
 
 @app.route('/player/<playerID>/edit/<int:user_id>/', methods=['GET', 'POST'])

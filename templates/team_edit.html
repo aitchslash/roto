@@ -1,6 +1,6 @@
 {% extends "base2.html" %}
 {% block content %}
-<form id="team_form" action="{{ url_for('editTeam', teamID=team_data[0].Player.teamID )}}" method='POST'>
+<form id="team_form" action="{{ url_for('editTeam', teamID=team_data[0].Player.teamID, user_id=user_id )}}" method='POST'>
 <table id="teamtable">
 	<thead>
 	<tr>
@@ -30,7 +30,7 @@
 	<tbody>
 {% for entry in team_data %}
 <tr class="y{{ entry.Batting.yearID }}">
-	<td class="fullname"><a href="{{ url_for('EditPlayer', playerID=entry.Player.lahmanID)}}"> {{ entry.Player.name }} </a></td>
+	<td class="fullname"><a href="{{ url_for('EditPlayer', playerID=entry.Player.lahmanID, user_id=user_id)}}"> {{ entry.Player.name }} </a></td>
 	<td class="POS">{{ entry.Player.pos }} </td>
 	<td class="Year">{{ entry.Batting.yearID }} </td>
 	<td class="G"><input name="{{ entry.Player.lahmanID}}G" type ="number" min="0" max="162" disabled value="{{ entry.Batting.G }}"></td>
