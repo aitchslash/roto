@@ -1,6 +1,6 @@
 {% extends "base2.html" %}
 {% block content %}
-<form id="team_form" action="{{ url_for('editTeam', teamID=team_data[0].Player.teamID, user_id=user_id )}}" method='POST'>
+<form id="team_form" action="{{ url_for('editTeam', team_id=team_id, user_id=user_id )}}" method='POST'>
 <table id="teamtable">
 	<thead>
 	<tr>
@@ -56,9 +56,10 @@
 </table>
 <div class="button" id="g_scale">Scale to G</div>
 <div class="button" id="ab_scale">Scale to AB</div>
-<div class="button" id="add_player"><a href="{{ url_for('newPlayer', teamID=team_data[0].Player.teamID) }}"> Add Player</a></div>
+<div class="button" id="add_player"><a href="{{ url_for('newPlayer', team_id=team_id, user_id=user_id) }}"> Add Player</a></div>
 <div class="button" id="reset">RESET</div>
-<div class="button" id="reset"><a href="{{ url_for('teamPage', teamID=team_data[0].Player.teamID) }}">Back to Team Page</div>
+
+<div class="button" id="reset"><a href="{{ url_for('teamPage', team_id=team_id, user_id=user_id) }}">Back to Team Page</div>
 <div class="button" id="submit">SUBMIT</div>
 <script src="/static/teamEdit.js" type='text/javascript'></script>
 <!--

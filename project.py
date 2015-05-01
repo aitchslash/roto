@@ -37,11 +37,11 @@ def HelloWorld():
     return output
 
 
-@app.route('/team/<teamID>/', defaults={'user_id': 1})
-@app.route('/team/<teamID>/<int:user_id>')
-def teamPage(teamID, user_id):
-    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
-    return render_template('base_team.html', player_data=team_batting_data, user_id=user_id)
+@app.route('/team/<team_id>/', defaults={'user_id': 1})
+@app.route('/team/<team_id>/<int:user_id>')
+def teamPage(team_id, user_id):
+    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
+    return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
 
 
 @app.route('/player/<playerID>/', defaults={'user_id': 1})
@@ -57,12 +57,12 @@ def PlayerPage(playerID, user_id):
 # using "09" as a kluge suffix to enable id generation w/o access to lahman db
 # could try to access - catch: use suffix
 # other error handling might be cool too
-@app.route('/player/new/', methods=['GET', 'POST'])
-def newPlayer():
+@app.route('/player/new/<team_id>/<int:user_id>', methods=['GET', 'POST'])
+def newPlayer(team_id, user_id):
     if request.method == 'POST':
         fullname = request.form['given'] + " " + request.form['last']
         lahman_id = (request.form['last'][:5] + request.form['given'][:2] + "09").lower()  # 9 should be safe
-        team_id = request.form['teamID']  # need this for the redirect
+        # team_id = request.form['teamID']  # need this for the redirect
         try:
             new_player = Player(name=fullname,
                                 lahmanID=lahman_id,
@@ -70,7 +70,8 @@ def newPlayer():
                                 mlbID=999999,  # hmm, non unique, does it matter?
                                 dob=str(request.form['dob']),
                                 pos=request.form['position'],
-                                teamID=request.form['teamID'])
+                                # teamID=request.form['teamID'][-4:-1])
+                                teamID=team_id)
         except ValueError as ve:
             return redirect(url_for('errorPage', error=ve))
 
@@ -80,11 +81,14 @@ def newPlayer():
         except exc.SQLAlchemyError as e:
             session.rollback()
             print "Error commiting Player Info"
+            print e
             return redirect(url_for('errorPage', error="likely a duplicate entry"))
 
         np_stats = Batting(lahmanID=lahman_id,
+                           user=user_id,
                            yearID=2015,
-                           teamID=request.form['teamID'],
+                           # teamID=request.form['teamID'][-4:-1],
+                           teamID=team_id,
                            G=request.form["G"],
                            AB=request.form["AB"],
                            H=request.form["H"],
@@ -106,9 +110,13 @@ def newPlayer():
         try:
             session.commit()
         except exc.SQLAlchemyError as e:
+            print "error",
+            print e
             session.rollback()
             #  need to delete player entry
             aborted_player = session.query(Player).filter(Player.lahmanID == lahman_id)
+            print lahman_id
+            print "aborted_player"
             if aborted_player:
                 session.delete(aborted_player)
                 session.commit()
@@ -127,9 +135,9 @@ def newPlayer():
             session.remove()'''
         print "Player committed"
 
-        return redirect(url_for('editTeam', teamID=team_id))
+        return redirect(url_for('editTeam', team_id=team_id, user_id=user_id))
     else:
-        return render_template('newPlayer.html')
+        return render_template('newPlayer.html', team_id=team_id, user_id=user_id)
 
 
 @app.route('/error/<error>')
@@ -157,15 +165,15 @@ def deletePlayer(playerID):
         session.commit()
         print "deleted"
         # flash ("Player successfully deleted")
-        return redirect(url_for('teamPage', teamID=team_id))
+        return redirect(url_for('teamPage', team_id=team_id))
     else:
         print "go to delete page"
         return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats)
 
 
-@app.route('/team/<teamID>/edit/<int:user_id>/', methods=['GET', 'POST'])
-def editTeam(teamID, user_id):
-    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
+@app.route('/team/<team_id>/edit/<int:user_id>/', methods=['GET', 'POST'])
+def editTeam(team_id, user_id):
+    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.yearID == 2015).all()
     if request.method == "POST":
         print "Postage!"
         form_data = request.values
@@ -195,7 +203,7 @@ def editTeam(teamID, user_id):
             session.add(batter_obj)
             session.commit()
             # flash team updated
-        return redirect(url_for('teamPage', teamID=teamID, user_id=user_id))
+        return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
     else:
         return render_template('team_edit.html', team_data=team_batting_data, user_id=user_id)
 

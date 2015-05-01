@@ -1,11 +1,12 @@
 {% extends "base2.html" %}
 {% block content %}
 <h1> Create New Batter </h1>
-<form id="new_player" action="{{ url_for('newPlayer')}}" method='POST'>
+<form id="new_player" action="{{ url_for('newPlayer', team_id=team_id, user_id=user_id)}}" method='POST'>
 	<div id="name_inputs">
 		<input name="given" type="text" placeholder='First Name' style="text-align:left" required>
 		<input name="last" type="text" placeholder='Last Name' style="text-align:left" required>
 	</div>
+	<!--
 	<div id="team_picker">Team:
 		<select name="team">
 			<option value="LAA">ana</option>
@@ -39,10 +40,12 @@
 			<option value="TOR">tor</option>
 			<option value="WAS">was</option>
 		</select>
+	-->
 		
-		<input id="team_hidden" name="teamID" type="text" required>
+		<input id="team_hidden" name="teamID" type="text" value="{{team_id}}" required>
 	
 	</div>
+
 	<div id="dob">DOB &nbsp <input name="dob" type="date" required>Age:
 		<span id="age"></span>
 		
