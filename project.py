@@ -205,7 +205,7 @@ def editTeam(team_id, user_id):
             # flash team updated
         return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
     else:
-        return render_template('team_edit.html', team_data=team_batting_data, user_id=user_id)
+        return render_template('team_edit.html', team_data=team_batting_data, team_id=team_id, user_id=user_id)
 
 
 @app.route('/player/<playerID>/edit/<int:user_id>/', methods=['GET', 'POST'])
