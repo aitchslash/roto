@@ -28,7 +28,6 @@ function set_team() {
 	var urlString = window.location.href;
 	var splitter = urlString.indexOf("new/");
 	var teamID = urlString.substring(splitter + 4, splitter + 7);
-	console.log(teamID);
 	$('#team_sel select').val('/team/' + teamID + '/');
 }
 
