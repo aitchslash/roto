@@ -26,9 +26,10 @@ $(document).ready(function(){
 
 function set_team() {
 	var urlString = window.location.href;
-	var splitter = urlString.indexOf("=");
-	var teamID = urlString.substring(splitter + 1);
-	$('#team_picker select').val(teamID)
+	var splitter = urlString.indexOf("new/");
+	var teamID = urlString.substring(splitter + 4, splitter + 7);
+	console.log(teamID);
+	$('#team_sel select').val('/team/' + teamID + '/');
 }
 
 function ensure_enabled() {  // for a input row
