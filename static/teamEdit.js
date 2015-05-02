@@ -1,6 +1,7 @@
 $(document).ready(function () {
+	set_team();
 	scale_ab();
-	orig_data = make_orig_array()
+	orig_data = make_orig_array();
 }) // likely want to put other functions in here properly
 
 	$('#ab_scale').on('click', function(){
@@ -19,6 +20,14 @@ $('#submit').on('click', function(){
 	enable_column("*");
 	document.getElementById('team_form').submit();
 })
+
+function set_team() {
+	var urlString = window.location.href;
+	var splitter = urlString.indexOf("team/");
+	var teamID = urlString.substring(splitter + 5, splitter + 8);
+	console.log(teamID);
+	$('#team_sel select').val('/team/' + teamID + '/');
+}
 
 function reset () {
 	var target_rows = document.getElementsByClassName('y2015');
