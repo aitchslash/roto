@@ -106,6 +106,6 @@ class MasterBattingLink(Base):
 
 # #### insert at end of file ######
 
-engine = create_engine('postgresql://ben:superstar@localhost/roto2', echo=True)  # convert_unicode = True
+engine = create_engine('postgresql://ben:superstar@localhost/roto', echo=True)  # convert_unicode = True
 
 Base.metadata.create_all(engine)

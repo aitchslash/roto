@@ -16,13 +16,13 @@ from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.sql import func
-from db_setup import Player, Batting, Base
+from db_setup import Player, Batting, Base, User
 
 # this and related f(x) could be eliminated if a team db and appropriate query were made
 from mlbUtils import makeTeamDictMlbLahman, makeTeamPickles, pickleTeamIDs
 
 # make postgresql engine
-engine = create_engine('postgresql://ben:superstar@localhost/roto2')
+engine = create_engine('postgresql://ben:superstar@localhost/roto')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -46,6 +46,12 @@ def main():
     """ runs through all 30 teams """
     """ populates master list """
     """ adds stats, prediction """
+
+    # make first user
+    user_one = User(id=1, email="benjamin.field@gmail.com", name="Benjamin Field")
+    session.add(user_one)
+    session.commit()
+    print "user committed"
     # get 30 team list
     pickleTeamIDs()
     makeTeamPickles()
@@ -196,13 +202,17 @@ def player_stats_to_psql(lahmanID, team_abbr):
         # add to db
 
         # make prediction for 2015
-        stats_2015 = calc_2015(holder, team_abbr)
+        stats_2015 = calc_2015(holder, lahmanID, team_abbr, user=1)
         session.add(stats_2015)
+        session.commit()
+    else:  # no recent stats - create blank year
+        blank_year = calc_2015(holder, lahmanID, team_abbr, user=1)
+        session.add(blank_year)
         session.commit()
     return holder  # tester
 
 
-def calc_2015(holder, team_abbr, weighting14=7, weighting13=5, weighting12=4, career=0, user=1):
+def calc_2015(holder, lahmanID, team_abbr, weighting14=7, weighting13=5, weighting12=4, career=0, user=1):
     total_weights = weighting14 + weighting13 + weighting12 + career
     weights = {2014: weighting14,
                2013: weighting13,
@@ -210,13 +220,14 @@ def calc_2015(holder, team_abbr, weighting14=7, weighting13=5, weighting12=4, ca
                162: career}
     # sort list, result 4 obj, [2014, 2013, 2012, career]
     # nb, hmm what happens for rookies, missing a year etc?
-    holder.sort(key=lambda x: x.yearID, reverse=True)
-    age = session.query(Player.age).filter(Player.lahmanID == holder[0].lahmanID).scalar()
-    teamID = team_abbr  # this will need to be from team loop
+    if holder:
+        holder.sort(key=lambda x: x.yearID, reverse=True)
+        age = session.query(Player.age).filter(Player.lahmanID == holder[0].lahmanID).scalar()
+    # teamID = team_abbr  # this will need to be from team loop
     # instantiate new Batting object
-    pred_2015 = Batting(lahmanID=holder[0].lahmanID,
+    pred_2015 = Batting(lahmanID=lahmanID,  # =holder[0].lahmanID,
                         user=user,
-                        teamID=teamID,
+                        teamID=team_abbr,
                         yearID=2015)  # G=162)
 
     stats = ['G', 'H', 'AB', 'R', 'doubles', 'triples', 'HR', 'RBI',
