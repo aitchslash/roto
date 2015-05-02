@@ -2,9 +2,9 @@
 {% block content %}
 <h1>{{ player_data.name }}</h1>
 <h2>Team/Position/Age:  
-	{{ player_data.teamID }}/
-	{{ player_data.pos}}/
-	{{ player_data.age}}
+	<span id="team_id">{{ player_data.teamID }}/</span>
+	<span id="pos">{{ player_data.pos}}/</span>
+	<span id="age">{{ player_data.age}}</span>
 </h2>
 <table id="statstable">
 	<tr>

@@ -6,7 +6,8 @@ $(document).ready(function(){
 })
 
 $(document).ready(function(){
-	set_form_2015()
+	set_form_2015();
+	set_team();
 })
 
 $(document).ready(function(){
@@ -20,9 +21,17 @@ $(document).ready(function(){
 		$('#half_and_half').click(function () {
 			ensure_enabled();
 			half_and_half();
+			
 		})
 	};
 })
+
+function set_team() {
+	//var urlString = window.location.href;
+	//var splitter = urlString.indexOf("new/");
+	var teamID = $('#team_id').text()
+	$('#team_sel select').val('/team/' + teamID);
+}
 
 function add_2014_buttons() {
 	var $avg2014 = $('<div class="button" id="avg2014">Use MLB avg</div>');
@@ -147,7 +156,7 @@ function getStat (row_id, stat) {
 function set_form_2015 () {
 	stat_list = $('#custom2 th'); // [1:] use innerText
 	target = $('#custom2 input');
-	console.log('set 2015');
+	// console.log('set 2015');
 	for (var i = 1; i < stat_list.length; i++) {
 		//target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
 		target[i - 1].setAttribute("value", getStat('2015', stat_list[i].innerText))
