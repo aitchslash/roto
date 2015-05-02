@@ -164,7 +164,7 @@ def deletePlayer(playerID):
         session.delete(player_data)
         session.commit()
         print "deleted"
-        # flash ("Player successfully deleted")
+        flash("Player successfully deleted")
         return redirect(url_for('teamPage', team_id=team_id))
     else:
         print "go to delete page"
@@ -202,7 +202,7 @@ def editTeam(team_id, user_id):
             batter_obj.SF = request.form[lahmanID + "SF"]
             session.add(batter_obj)
             session.commit()
-            # flash team updated
+            flash("team updated")
         return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
     else:
         return render_template('team_edit.html', team_data=team_batting_data, team_id=team_id, user_id=user_id)
@@ -241,7 +241,7 @@ def EditPlayer(playerID, user_id):
         session.add(stats2015)
         session.commit()
 
-        # flash(db updated)
+        flash("player updated")
         ''' works, goes to edit page, try implementing url_for redirect
         return render_template('player_edit.html', player_data=player_data,
                                player_stats=player_stats)
