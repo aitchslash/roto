@@ -33,6 +33,37 @@ function set_team() {
 	$('#team_sel select').val('/team/' + teamID);
 }
 
+function add_ten(x) {
+	var plus = ["H", "R", "2B", "3B", "HR", "RBI", "SB", "BB", "IBB", "HBP", "SF", "SH"]
+	var minus = ["CS", "SO", "GIDP"]
+	if (x === true) {
+		var multiplier = 1.10;
+	} else {
+		var multiplier = 0.90
+	}
+	$('#datums input').each(function(){
+		var current_value = $(this).val();
+		if (plus.indexOf(this.name) >= 0) {
+			$(this).val(Math.round(current_value * multiplier));
+		}
+		if (minus.indexOf(this.name) >= 0) {
+			$(this).val(Math.round(current_value *(1 / multiplier)));
+		}
+	})
+}
+
+$('#plus_10').on('click', function() {
+	add_ten(true);
+})
+
+$('#minus_10').on('click', function() {
+	add_ten(false);
+} )
+
+$('#all_fields').on('click', function(){
+	$('.extra').toggle();
+})
+
 function add_2014_buttons() {
 	var $avg2014 = $('<div class="button" id="avg2014">Use MLB avg</div>');
 	$('body').append($avg2014);

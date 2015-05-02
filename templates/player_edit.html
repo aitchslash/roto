@@ -26,7 +26,7 @@
 			<th class='extra'>SF</th>
 			<th class='extra'>SH</th>
 		</tr>
-		<tr>
+		<tr id="datums">
 			<td class="firstCol">Custom2</td>
 			<td><input id="Ginput" name="G" type="number" min="0" max="162"></td>
 			<td><input name="AB" type="number" min="0" max="700"></td>
@@ -50,8 +50,12 @@
 </form>
 </div>
 <div class="button" id="reset_form">Reset to projected 2015</div>
-<div class="button" id="game_scale">Scale to G</div>
+<div class="button" id="game_scale">Scale to G</div><div class="button" id="plus_10">Plus 10%</div>
+<br>
+	<div class="button" id="minus_10">Minus 10%</div>
+	<div class="button" id="all_fields">Show/Hide extra stats</div>
 <div class="button" id="submit">SUBMIT</div>
+<br>
 <div class="button" id="verify_del"><a href="{{ url_for('deletePlayer', playerID=player_data.lahmanID) }}"> Delete</a></div>
 
 <p id="wOBA_formula">wOBA formula:  wOBA = (.689*uBB + .722*HBP + .892*1B + 1.283*2B + 1.635*3B + 2.135*HR) / (AB + BB - IBB + SF + HBP)</p>
