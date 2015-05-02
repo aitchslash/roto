@@ -148,8 +148,8 @@ def errorPage(error):
     return render_template('base_error.html', error=error)
 
 
-@app.route('/player/<playerID>/delete/', methods=['GET', 'POST'])
-def deletePlayer(playerID):
+@app.route('/player/<playerID>/delete/<int:user_id>', methods=['GET', 'POST'])
+def deletePlayer(playerID, user_id):
     # might want to convert the two queries to one
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
     player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
@@ -168,10 +168,10 @@ def deletePlayer(playerID):
         session.commit()
         print "deleted"
         flash("Player successfully deleted")
-        return redirect(url_for('teamPage', team_id=team_id))
+        return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
     else:
         print "go to delete page"
-        return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats)
+        return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats, user_id=user_id)
 
 
 @app.route('/team/<team_id>/edit/<int:user_id>/', methods=['GET', 'POST'])

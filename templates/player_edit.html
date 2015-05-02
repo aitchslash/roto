@@ -56,7 +56,7 @@
 	<div class="button" id="all_fields">Show/Hide extra stats</div>
 <div class="button" id="submit">SUBMIT</div>
 <br>
-<div class="button" id="verify_del"><a href="{{ url_for('deletePlayer', playerID=player_data.lahmanID) }}"> Delete</a></div>
+<div class="button" id="verify_del"><a href="{{ url_for('deletePlayer', playerID=player_data.lahmanID, user_id=user_id) }}"> Delete</a></div>
 
 <p id="wOBA_formula">wOBA formula:  wOBA = (.689*uBB + .722*HBP + .892*1B + 1.283*2B + 1.635*3B + 2.135*HR) / (AB + BB - IBB + SF + HBP)</p>
 

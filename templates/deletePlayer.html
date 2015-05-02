@@ -4,14 +4,14 @@
 <h2>Confirm player delete</h2>
 
 <div class="button" id="back_team">
-	<a href="{{ url_for('teamPage', teamID=player_data.teamID) }}"> 
+	<a href="{{ url_for('teamPage', team_id=player_data.teamID, user_id=user_id) }}"> 
 		Back to team page
 	</a>
 </div>
 
-<div class="button" id="back_edit"><a href="{{url_for('EditPlayer', playerID=player_data.lahmanID)}}">Back to edit page</a></div>
+<div class="button" id="back_edit"><a href="{{url_for('EditPlayer', playerID=player_data.lahmanID, user_id=user_id)}}">Back to edit page</a></div>
 
-<form id="confirm_delete" action="{{url_for('deletePlayer', playerID=player_data.lahmanID)}}" method="POST">
+<form id="confirm_delete" action="{{url_for('deletePlayer', playerID=player_data.lahmanID, user_id=user_id)}}" method="POST">
 
 <div class="button" id="delete">Confirm Delete</div>
 </form>
