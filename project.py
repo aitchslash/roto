@@ -30,11 +30,14 @@ session = DBSession()
 @app.route('/hello')
 @app.route('/index')
 def HelloWorld():
+    '''
     output = ""
     sluggers = session.query(Batting).filter(Batting.yearID == 2015).order_by(Batting.HR.desc()).limit(5).all()
     for row in sluggers:
         output += "<li>" + row.lahmanID + ":  " + str(row.HR) + " HR</li>"
     return output
+    '''
+    return render_template('index.html')
 
 
 @app.route('/team/<team_id>/', defaults={'user_id': 1})
