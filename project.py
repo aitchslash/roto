@@ -43,12 +43,23 @@ def HelloWorld():
 @app.route('/team/<team_id>/', defaults={'user_id': 1})
 @app.route('/team/<team_id>/<int:user_id>')
 def teamPage(team_id, user_id):
+    # if user is logged in AND user id != 1
+    # fetch user specific data
+
+    if 'username' in login_session:
+        print login_session['username']
+        print login_session['user_id']
+        if login_session['user_id'] == user_id:
+            print "Correct User"
+
+    # else not logged in or userid = 1, run query w/ default (userid=1)
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
-    return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
+    # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
+    return render_template('base_team.html', player_data=team_batting_data, user_id=1, team_id=team_id)
 
 
 @app.route('/player/<playerID>/', defaults={'user_id': 1})
-@app.route('/player/<playerID>/<int:user_id>/')  # might want to use a converter and/or regex  # user specific too
+@app.route('/player/<playerID>/<int:user_id>/')  # might want to use a converter and/or regex
 def PlayerPage(playerID, user_id):
     # might want to convert the two queries to one
     player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
@@ -346,7 +357,7 @@ def gconnect():
     user_id = getUserID(data["email"])
     if not user_id:
         user_id = createUser(login_session)
-        login_session['user_id'] = user_id
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
@@ -379,6 +390,7 @@ def gdisconnect():
 
     if result['status'] == '200':
         # Reset session
+        print "got 200"
         del login_session['credentials']
         del login_session['gplus_id']
         del login_session['username']
