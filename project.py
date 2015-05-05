@@ -428,7 +428,7 @@ def fbconnect():
     print url
     h = httplib2.Http()
     # result = h.request(url, 'GET')[1]
-    result = h.request(url, 'GET')
+    result = h.request(url, 'GET')[1]
     print "result"
     print result
 
