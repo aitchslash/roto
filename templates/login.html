@@ -13,7 +13,7 @@
 				  data-cookiepolicy="single_host_origin"
 				  data-callback="signInCallback"
 				  data-approvalprompt="force">
-			</span>
+			</span></div>
 		<div id="result"></div>
 
 		<script type="text/javascript">
@@ -70,7 +70,9 @@
    }(document, 'script', 'facebook-jssdk'));
 
 function sendTokenToServer() {
+	console.log("In sendTokenToServer")
     var access_token = FB.getAuthResponse()['accessToken'];
+    console.log("tried to get access_token")
     console.log(access_token)
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
@@ -98,7 +100,7 @@ function sendTokenToServer() {
     });
   }
 </script>
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
 </fb:login-button>
 
 <div id="status">
