@@ -48,7 +48,7 @@ def main():
     """ adds stats, prediction """
 
     # make first user
-    user_one = User(id=1, email="benjamin.field@gmail.com", name="Benjamin Field")
+    user_one = User(email="benjamin.field@gmail.com", name="Benjamin Field")
     session.add(user_one)
     session.commit()
     print "user committed"
