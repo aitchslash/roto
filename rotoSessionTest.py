@@ -97,6 +97,14 @@ def deleteAllTest():
         session.delete(player)
         session.commit()
 
+# ## -- facebook token exchange -- ## #
+
+'''
+import httplib2
+import requests'''
+# url = '''https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=283302008528558&client_secret=4af9c13fda7c5f3ef5c8dcd2cd38dafc&fb_exchange_token=CAAEBqWOVHq4BAFbw4WcdZCoACnnwX8FARaruAPJEmvFliKidYxFeZCaJqj05qHFA7gXgByLZB4DXqpoZBdKzEFkLiVqU1UMiGYiOufCb1iBLyJCHZCuamsgZBpS0VfTKxZAZBmQgPBNPlZBm5ZBlX5XAp7oyKl8ZCwIElhwcg00ZCXaPpZCBf98DFCQY6OkRVHwaMDCEsgoIjtuCtgGFtRNNdYWZCygYpGQIyC2foZD'''
+
+
 '''
 joeyBats = 'bautijo02'
 jays_dict = getJays()
