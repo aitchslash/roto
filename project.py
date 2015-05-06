@@ -45,11 +45,17 @@ def HelloWorld():
 def teamPage(team_id, user_id):
     # if user is logged in AND user id != 1
     # fetch user specific data
+    if 'email' in login_session:
+        print login_session['email']
+        sess_id = getUserID(login_session['email'])
+        print "session id: ",
+        print sess_id
 
     if 'username' in login_session:
         print login_session['username']
         print login_session['user_id']
-        if login_session['user_id'] == user_id:
+        # if login_session['user_id'] == user_id:
+        if sess_id == user_id:
             print "Correct User"
 
     # else not logged in or userid = 1, run query w/ default (userid=1)
@@ -377,6 +383,7 @@ def gconnect():
 def gdisconnect():
     # only disconnect a connected user
     credentials = login_session.get('credentials')
+    print credentials
     if credentials is None:
         response = make_response(json.dumps('User is not connected'), 401)
         response.headers['Content-Type'] = 'application/json'
@@ -387,10 +394,17 @@ def gdisconnect():
     url = "https://accounts.google.com/o/oauth2/revoke?token=%s" % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
+    print "result",
+    print result
+    print "result status",
+    print result['status']
 
     if result['status'] == '200':
         # Reset session
         print "got 200"
+        print login_session['credentials']
+        # looks like token already revoked, commenting out lines
+
         del login_session['credentials']
         del login_session['gplus_id']
         del login_session['username']
@@ -483,6 +497,7 @@ def fbdisconnect():
     url = 'https://graph.facebook.com/%s/permissions' % facebook_id
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
+    print result
     print "fb logged out"
     return "you have been logged out"
 
