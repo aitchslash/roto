@@ -28,8 +28,9 @@ session = DBSession()
 
 @app.route('/')
 @app.route('/hello')
-@app.route('/index')
-def HelloWorld():
+@app.route('/index/', defaults={'user_id': 1})
+@app.route('/index/<int:user_id>')
+def HelloWorld(user_id):
     '''
     output = ""
     sluggers = session.query(Batting).filter(Batting.yearID == 2015).order_by(Batting.HR.desc()).limit(5).all()
@@ -37,7 +38,7 @@ def HelloWorld():
         output += "<li>" + row.lahmanID + ":  " + str(row.HR) + " HR</li>"
     return output
     '''
-    return render_template('index.html')
+    return render_template('index.html', user_id=user_id)
 
 
 @app.route('/team/<team_id>/', defaults={'user_id': 1})
@@ -45,20 +46,30 @@ def HelloWorld():
 def teamPage(team_id, user_id):
     # if user is logged in AND user id != 1
     # fetch user specific data
+    print "before if, user_id: ",
+    print user_id
     if 'email' in login_session:
         print login_session['email']
         sess_id = getUserID(login_session['email'])
         print "session id: ",
         print sess_id
+        if sess_id == user_id:
+            print "Correct User"
+            team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
+            # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
+            return render_template('base_team.html', player_data=team_batting_data, user_id=sess_id, team_id=team_id)
 
+    '''
     if 'username' in login_session:
         print login_session['username']
         print login_session['user_id']
         # if login_session['user_id'] == user_id:
         if sess_id == user_id:
             print "Correct User"
+    '''
 
     # else not logged in or userid = 1, run query w/ default (userid=1)
+    print "userID and sessionID didn't line up, rendering default"
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
     # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
     return render_template('base_team.html', player_data=team_batting_data, user_id=1, team_id=team_id)
@@ -482,6 +493,7 @@ def fbconnect():
     output += login_session['username']
 
     output += '!</h1>'
+    output += "<div id='user_id'>" + str(user_id) + "</div>"
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
@@ -498,6 +510,7 @@ def fbdisconnect():
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
     print result
+    # login_session.close()
     print "fb logged out"
     return "you have been logged out"
 
