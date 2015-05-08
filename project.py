@@ -515,6 +515,10 @@ def fbdisconnect():
     result = h.request(url, 'DELETE')[1]
     print result
     # login_session.close()
+    del login_session['provider']
+    del login_session['username']
+    del login_session['email']
+    del login_session['facebook_id']
     print "fb logged out"
     return "you have been logged out"
 
