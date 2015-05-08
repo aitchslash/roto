@@ -473,6 +473,8 @@ def fbconnect():
     login_session['username'] = data["name"]
     login_session['email'] = data["email"]
     login_session['facebook_id'] = data["id"]
+    stored_token = token.split("=")[1]
+    login_session['access_token'] = stored_token
 
     # Get user picture
     url = 'https://graph.facebook.com/v2.2/me/picture?%s&redirect=0&height=200&width=200' % token
@@ -506,7 +508,9 @@ def fbconnect():
 @app.route('/fbdisconnect')
 def fbdisconnect():
     facebook_id = login_session['facebook_id']
-    url = 'https://graph.facebook.com/%s/permissions' % facebook_id
+    access_token = login_session['access_token']
+    url = 'https://graph.facebook.com/%s/permissions?%s=token' % (facebook_id, access_token)
+    print url
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
     print result
