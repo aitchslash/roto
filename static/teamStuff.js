@@ -24,8 +24,12 @@ $(document).ready(function(){
 function set_team() {
 	var urlString = window.location.href;
 	var splitter = urlString.indexOf("team/");
-	var teamID = urlString.substring(splitter + 5, splitter + 8);
-	$('#team_sel select').val('/team/' + teamID + '/');
+	//console.log(splitter)
+	//console.log(urlString.substring(splitter))
+	var team_url = "/" + urlString.substring(splitter)
+	//console.log(team_url)
+	// var teamID = urlString.substring(splitter + 5, splitter + 8);
+	$('#team_sel select').val(team_url)
 }
 
 function add_wOBA () {
