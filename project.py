@@ -174,7 +174,11 @@ def newPlayer(team_id, user_id):
     else:
         flash("You need to be logged in to add a new player")
         # could redirect to login
-        return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
+        if 'email' in login_session:
+            user_id = getUserID(login_session['email'])
+            return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
+        else:
+            return redirect(url_for('teamPage', team_id=team_id, user_id=1))
 
 
 @app.route('/error/<error>')
