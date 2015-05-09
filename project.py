@@ -90,85 +90,91 @@ def PlayerPage(playerID, user_id):
 # other error handling might be cool too
 @app.route('/player/new/<team_id>/<int:user_id>', methods=['GET', 'POST'])
 def newPlayer(team_id, user_id):
-    if request.method == 'POST':
-        fullname = request.form['given'] + " " + request.form['last']
-        lahman_id = (request.form['last'][:5] + request.form['given'][:2] + "09").lower()  # 9 should be safe
-        # team_id = request.form['teamID']  # need this for the redirect
-        try:
-            new_player = Player(name=fullname,
-                                lahmanID=lahman_id,
-                                age=int(request.form['age']),
-                                mlbID=999999,  # hmm, non unique, does it matter?
-                                dob=str(request.form['dob']),
-                                pos=request.form['position'],
-                                # teamID=request.form['teamID'][-4:-1])
-                                teamID=team_id)
-        except ValueError as ve:
-            return redirect(url_for('errorPage', error=ve))
+    # check to make sure it's a valid user AND user email lines up with ID
+    if 'email' in login_session and getUserID(login_session['email']) == user_id:
+        if request.method == 'POST':
+            fullname = request.form['given'] + " " + request.form['last']
+            lahman_id = (request.form['last'][:5] + request.form['given'][:2] + "09").lower()  # 9 should be safe
+            # team_id = request.form['teamID']  # need this for the redirect
+            try:
+                new_player = Player(name=fullname,
+                                    lahmanID=lahman_id,
+                                    age=int(request.form['age']),
+                                    mlbID=999999,  # hmm, non unique, does it matter?
+                                    dob=str(request.form['dob']),
+                                    pos=request.form['position'],
+                                    # teamID=request.form['teamID'][-4:-1])
+                                    teamID=team_id)
+            except ValueError as ve:
+                return redirect(url_for('errorPage', error=ve))
 
-        session.add(new_player)
-        try:
-            session.commit()  # likely have to commit here so that the Batting has a place to go
-        except exc.SQLAlchemyError as e:
-            session.rollback()
-            print "Error commiting Player Info"
-            print e
-            return redirect(url_for('errorPage', error="likely a duplicate entry"))
+            session.add(new_player)
+            try:
+                session.commit()  # likely have to commit here so that the Batting has a place to go
+            except exc.SQLAlchemyError as e:
+                session.rollback()
+                print "Error commiting Player Info"
+                print e
+                return redirect(url_for('errorPage', error="likely a duplicate entry"))
 
-        np_stats = Batting(lahmanID=lahman_id,
-                           user=user_id,
-                           yearID=2015,
-                           # teamID=request.form['teamID'][-4:-1],
-                           teamID=team_id,
-                           G=request.form["G"],
-                           AB=request.form["AB"],
-                           H=request.form["H"],
-                           CS=request.form["CS"],
-                           IBB=request.form["IBB"],
-                           R=request.form["R"],
-                           doubles=request.form["2B"],
-                           triples=request.form["3B"],
-                           HR=request.form["HR"],
-                           RBI=request.form["RBI"],
-                           SB=request.form["SB"],
-                           BB=request.form["BB"],
-                           SO=request.form["SO"],
-                           HBP=request.form["HBP"],
-                           GIDP=request.form["GIDP"],
-                           SH=request.form["SH"],
-                           SF=request.form["SF"])
-        session.add(np_stats)
-        try:
-            session.commit()
-        except exc.SQLAlchemyError as e:
-            print "error",
-            print e
-            session.rollback()
-            #  need to delete player entry
-            aborted_player = session.query(Player).filter(Player.lahmanID == lahman_id)
-            print lahman_id
-            print "aborted_player"
-            if aborted_player:
-                session.delete(aborted_player)
+            np_stats = Batting(lahmanID=lahman_id,
+                               user=user_id,
+                               yearID=2015,
+                               # teamID=request.form['teamID'][-4:-1],
+                               teamID=team_id,
+                               G=request.form["G"],
+                               AB=request.form["AB"],
+                               H=request.form["H"],
+                               CS=request.form["CS"],
+                               IBB=request.form["IBB"],
+                               R=request.form["R"],
+                               doubles=request.form["2B"],
+                               triples=request.form["3B"],
+                               HR=request.form["HR"],
+                               RBI=request.form["RBI"],
+                               SB=request.form["SB"],
+                               BB=request.form["BB"],
+                               SO=request.form["SO"],
+                               HBP=request.form["HBP"],
+                               GIDP=request.form["GIDP"],
+                               SH=request.form["SH"],
+                               SF=request.form["SF"])
+            session.add(np_stats)
+            try:
                 session.commit()
-            return redirect(url_for('errorPage', error=e))
+            except exc.SQLAlchemyError as e:
+                print "error",
+                print e
+                session.rollback()
+                #  need to delete player entry
+                aborted_player = session.query(Player).filter(Player.lahmanID == lahman_id)
+                print lahman_id
+                print "aborted_player"
+                if aborted_player:
+                    session.delete(aborted_player)
+                    session.commit()
+                return redirect(url_for('errorPage', error=e))
 
-        '''
-        except exc.SQLAlchemyError as e:
-            session.rollback()
-            print "Player Id (likely) already exists, oops"
-            print e
-            # flash oops
-            # raise e
-            return redirect(url_for('errorPage', error=e))'''
-        '''
-        finally:
-            session.remove()'''
-        print "Player committed"
+            '''
+            except exc.SQLAlchemyError as e:
+                session.rollback()
+                print "Player Id (likely) already exists, oops"
+                print e
+                # flash oops
+                # raise e
+                return redirect(url_for('errorPage', error=e))'''
+            '''
+            finally:
+                session.remove()'''
+            print "Player committed"
 
-        return redirect(url_for('editTeam', team_id=team_id, user_id=user_id))
+            return redirect(url_for('editTeam', team_id=team_id, user_id=user_id))
+        else:
+            return render_template('newPlayer.html', team_id=team_id, user_id=user_id)
     else:
-        return render_template('newPlayer.html', team_id=team_id, user_id=user_id)
+        flash("You need to be logged in to add a new player")
+        # could redirect to login
+        return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
 
 
 @app.route('/error/<error>')
