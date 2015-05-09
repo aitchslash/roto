@@ -401,10 +401,15 @@ def gdisconnect():
         return response
 
     # GET the token and revoke
-    access_token = credentials.access_token
+    access_token = credentials.access_token  # old line
+    # access_token = login_session['access_token'] # getting wrong one
     url = "https://accounts.google.com/o/oauth2/revoke?token=%s" % access_token
+    print "url: " + str(url)
     h = httplib2.Http()
-    result = h.request(url, 'GET')[0]
+    # result = h.request(url, 'GET')[0] old line
+    full_result = h.request(url, 'GET')
+    print full_result
+    result = full_result[0]
     print "result",
     print result
     print "result status",
@@ -415,12 +420,18 @@ def gdisconnect():
         print "got 200"
         print login_session['credentials']
         # looks like token already revoked, commenting out lines
-
+        print "deleting credentials"
         del login_session['credentials']
+        print "deleting g+ id"
         del login_session['gplus_id']
+        print "deleting username"
         del login_session['username']
+        print "deleting email"
         del login_session['email']
+        print "deleting picture"
         del login_session['picture']
+        print "deleting provider"
+        del login_session['provider']
 
         response = make_response(json.dumps('Successfully disconnected'), 200)
         response.headers['Content-Type'] = 'application/json'
@@ -519,8 +530,70 @@ def fbdisconnect():
     del login_session['username']
     del login_session['email']
     del login_session['facebook_id']
+    del login_session['picture']
     print "fb logged out"
     return "you have been logged out"
+
+
+# debug/test tool for login/logout
+@app.route('/displaylogin')
+def login_display():
+    output = "login deets:"
+    if login_session:
+        output += "there is a login_session"
+        if 'provider' in login_session:
+            output += "provider: "
+            output += str(login_session['provider'])
+            output += "<br><br>"
+            '''
+            if login_session['provider'] == 'google':
+                output += "gplus_id: "
+            # if login_session['gplus_id']
+                output += login_session['gplus_id']
+                output += "<br><br>"
+                output += "token <br>"
+                output += str(login_session['credentials'].access_token)
+                output += "<br><br>"
+            '''
+
+            output += str(dir(login_session))
+            output += "<br><br>"
+            output += str(login_session.viewkeys())
+            output += "<br><br>"
+            output += "try to examine access_token"
+            output += "<br>"
+            output += str(login_session['access_token'])
+            output += "<br><br>"
+            output += str(login_session.get("access_token"))
+        else:
+            output += "missing provider"
+    else:
+        output += "no login_session"
+    return output
+
+
+# Universal disconnect
+#   - added benefit - avoids early d/c on url pointing
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            print "Trying to disconnect from google"
+            gdisconnect()
+        elif login_session['provider'] == 'facebook':
+            fbdisconnect()
+        else:
+            print "unknown provider"
+        return render_template('/index.html', user_id=1)
+    else:
+        flash("No login found")
+        return render_template('/index.html', user_id=1)
+
+
+# hard login reset
+@app.route('/hardreset')
+def kill_token():
+    pass
 
 
 # User helpers
