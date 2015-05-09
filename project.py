@@ -48,16 +48,19 @@ def teamPage(team_id, user_id):
     # fetch user specific data
     print "before if, user_id: ",
     print user_id
-    if 'email' in login_session:
+    # if 'email' in login_session:  # old line
+
+    # check to make sure it's a valid user AND user email lines up with ID
+    if 'email' in login_session and getUserID(login_session['email']) == user_id:
         print login_session['email']
         sess_id = getUserID(login_session['email'])
         print "session id: ",
         print sess_id
-        if sess_id == user_id:
-            print "Correct User"
-            team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
-            # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
-            return render_template('base_team.html', player_data=team_batting_data, user_id=sess_id, team_id=team_id)
+        # if sess_id == user_id:
+        print "Correct User"
+        team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
+        # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
+        return render_template('base_team.html', player_data=team_batting_data, user_id=sess_id, team_id=team_id)
 
     '''
     if 'username' in login_session:
@@ -67,12 +70,16 @@ def teamPage(team_id, user_id):
         if sess_id == user_id:
             print "Correct User"
     '''
-
-    # else not logged in or userid = 1, run query w/ default (userid=1)
-    print "userID and sessionID didn't line up, rendering default"
+    if user_id != 1:
+        # else something messed up, run query w/ default (userid=1)
+        flash("userID and sessionID didn't line up, rendering default")
+        flash("suggest you remove user id from the url request")
+        # user_id = 1
+    # regardless:
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
     # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
-    return render_template('base_team.html', player_data=team_batting_data, user_id=1, team_id=team_id)
+    return render_template('base_team.html', player_data=team_batting_data, team_id=team_id, user_id=user_id)
+    # return redirect(url_for('teamPage', team_id=team_id, user_id=1))  # blew up, too many redirects
 
 
 @app.route('/player/<playerID>/', defaults={'user_id': 1})
