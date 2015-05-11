@@ -52,6 +52,7 @@ def teamPage(team_id, user_id):
 
     # check to make sure it's a valid user AND user email lines up with ID
     if 'email' in login_session and getUserID(login_session['email']) == user_id:
+        # prints for login testing
         print login_session['email']
         sess_id = getUserID(login_session['email'])
         print "session id: ",
@@ -85,10 +86,15 @@ def teamPage(team_id, user_id):
 @app.route('/player/<playerID>/', defaults={'user_id': 1})
 @app.route('/player/<playerID>/<int:user_id>/')  # might want to use a converter and/or regex
 def PlayerPage(playerID, user_id):
-    # might want to convert the two queries to one
-    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
-    player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
-    return render_template('player.html', player_data=player_data, player_stats=player_stats, user_id=user_id)
+    # check if correctly logged in or requesting the default
+    if ('email' in login_session and getUserID(login_session['email']) == user_id) or user_id == 1:
+        # might want to convert the two queries to one
+        player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
+        player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+        return render_template('player.html', player_data=player_data, player_stats=player_stats, user_id=user_id)
+    else:
+        flash("Something went awry. Try logging in again")
+        return redirect(url_for('showLogin'))
 
 
 # may need to wrap lahmanID builder in try catch w/ db queries
