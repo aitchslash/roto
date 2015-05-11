@@ -274,46 +274,45 @@ def editTeam(team_id, user_id):
 
 @app.route('/player/<playerID>/edit/<int:user_id>/', methods=['GET', 'POST'])
 def EditPlayer(playerID, user_id):
-    # print login_session('username')
-    # user_id = getUserInfo(login_session)
-    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
-    player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+    # check if logged in and correct team url
+    if 'email' in login_session and getUserID(login_session['email']) == user_id:
+        player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
+        player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
 
-    if request.method == "POST":
-        print "Posted!!!"
+        if request.method == "POST":
+            print "Posted!!!"
 
-        stats2015 = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
+            stats2015 = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
 
-        stats2015.G = request.form['G']
-        stats2015.AB = request.form['AB']
-        stats2015.H = request.form['H']
-        stats2015.CS = request.form['CS']
-        stats2015.IBB = request.form['IBB']
-        stats2015.R = request.form['R']
-        stats2015.doubles = request.form['2B']
-        stats2015.triples = request.form['3B']
-        stats2015.HR = request.form['HR']
-        stats2015.RBI = request.form['RBI']
-        stats2015.SB = request.form['SB']
-        stats2015.BB = request.form['BB']
-        stats2015.SO = request.form['SO']
-        stats2015.HBP = request.form['HBP']
-        stats2015.GIDP = request.form['GIDP']
-        stats2015.SF = request.form['SF']
-        stats2015.SH = request.form['SH']
+            stats2015.G = request.form['G']
+            stats2015.AB = request.form['AB']
+            stats2015.H = request.form['H']
+            stats2015.CS = request.form['CS']
+            stats2015.IBB = request.form['IBB']
+            stats2015.R = request.form['R']
+            stats2015.doubles = request.form['2B']
+            stats2015.triples = request.form['3B']
+            stats2015.HR = request.form['HR']
+            stats2015.RBI = request.form['RBI']
+            stats2015.SB = request.form['SB']
+            stats2015.BB = request.form['BB']
+            stats2015.SO = request.form['SO']
+            stats2015.HBP = request.form['HBP']
+            stats2015.GIDP = request.form['GIDP']
+            stats2015.SF = request.form['SF']
+            stats2015.SH = request.form['SH']
 
-        session.add(stats2015)
-        session.commit()
+            session.add(stats2015)
+            session.commit()
 
-        flash("player updated")
-        ''' works, goes to edit page, try implementing url_for redirect
-        return render_template('player_edit.html', player_data=player_data,
-                               player_stats=player_stats)
-        '''
-        return redirect(url_for('PlayerPage', playerID=playerID))
+            flash("player updated")
+            return redirect(url_for('PlayerPage', playerID=playerID, user_id=user_id))
+        else:
+            return render_template('player_edit.html', player_data=player_data,
+                                   player_stats=player_stats, user_id=user_id)
     else:
-        return render_template('player_edit.html', player_data=player_data,
-                               player_stats=player_stats, user_id=user_id)  # , mod=modifier, projmod=proj_mod)
+        flash("You need to be logged in to edit players")
+        return redirect(url_for('showLogin'))
 
 
 @app.route('/login/')
