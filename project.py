@@ -201,28 +201,33 @@ def errorPage(error):
 
 @app.route('/player/<playerID>/delete/<int:user_id>', methods=['GET', 'POST'])
 def deletePlayer(playerID, user_id):
-    # might want to convert the two queries to one
-    player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
-    player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
-    team_id = player_data.teamID
-    print team_id
-    if request.method == "POST":
-        print "Did post"
-        # the below loop was needed prior to cascade
-        # scratch that, IS needed; cascade not working, yes it IS
-        '''
-        for year in player_stats:
-            session.delete(year)
-        session.commit()
-        print "did first bit" '''
-        session.delete(player_data)
-        session.commit()
-        print "deleted"
-        flash("Player successfully deleted")
-        return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
+    # check if logged in and correct player url
+    if 'email' in login_session and getUserID(login_session['email']) == user_id:
+        # might want to convert the two queries to one
+        player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
+        player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+        team_id = player_data.teamID
+        print team_id
+        if request.method == "POST":
+            print "Did post"
+            # the below loop was needed prior to cascade
+            # scratch that, IS needed; cascade not working, yes it IS
+            '''
+            for year in player_stats:
+                session.delete(year)
+            session.commit()
+            print "did first bit" '''
+            session.delete(player_data)
+            session.commit()
+            print "deleted"
+            flash("Player successfully deleted")
+            return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
+        else:
+            print "go to delete page"
+            return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats, user_id=user_id)
     else:
-        print "go to delete page"
-        return render_template('deletePlayer.html', player_data=player_data, player_stats=player_stats, user_id=user_id)
+        flash("Login needed before players can be deleted")
+        return redirect(url_for('showLogin'))
 
 
 @app.route('/team/<team_id>/edit/<int:user_id>/', methods=['GET', 'POST'])
