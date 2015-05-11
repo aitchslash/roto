@@ -25,7 +25,11 @@ function set_team() {
 	var urlString = window.location.href;
 	var splitter = urlString.indexOf("team/");
 	var teamID = urlString.substring(splitter + 5, splitter + 8);
-	$('#team_sel select').val('/team/' + teamID + '/');
+	console.log(teamID);
+	var user = urlString.substring(urlString.indexOf("/edit") + 5, urlString.indexOf("/edit") + 7);
+	console.log(user);
+	console.log('/team/' + teamID + user);
+	$('#team_sel select').val('/team/' + teamID + user);
 }
 
 function reset () {
