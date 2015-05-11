@@ -232,39 +232,44 @@ def deletePlayer(playerID, user_id):
 
 @app.route('/team/<team_id>/edit/<int:user_id>/', methods=['GET', 'POST'])
 def editTeam(team_id, user_id):
-    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.yearID == 2015).all()
-    if request.method == "POST":
-        print "Postage!"
-        form_data = request.values
-        ids = form_data.getlist('lahmanID')
-        print ids
-        # loop through players, grab data, commit new objs
-        for lahmanID in ids:
-            # print lahmanID
-            batter_obj = session.query(Batting).filter(Batting.lahmanID == lahmanID, Batting.yearID == 2015).one()
-            batter_obj.G = request.form[lahmanID + "G"]
-            batter_obj.AB = request.form[lahmanID + "AB"]
-            batter_obj.H = request.form[lahmanID + "H"]
-            batter_obj.CS = request.form[lahmanID + "CS"]
-            batter_obj.IBB = request.form[lahmanID + "IBB"]
-            batter_obj.R = request.form[lahmanID + "R"]
-            batter_obj.doubles = request.form[lahmanID + "2B"]
-            batter_obj.triples = request.form[lahmanID + "3B"]
-            batter_obj.HR = request.form[lahmanID + "HR"]
-            batter_obj.RBI = request.form[lahmanID + "RBI"]
-            batter_obj.SB = request.form[lahmanID + "SB"]
-            batter_obj.BB = request.form[lahmanID + "BB"]
-            batter_obj.SO = request.form[lahmanID + "SO"]
-            batter_obj.HBP = request.form[lahmanID + "HBP"]
-            batter_obj.GIDP = request.form[lahmanID + "GIDP"]
-            batter_obj.SH = request.form[lahmanID + "SH"]
-            batter_obj.SF = request.form[lahmanID + "SF"]
-            session.add(batter_obj)
-            session.commit()
-        flash("team updated")
-        return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
-    else:
-        return render_template('team_edit.html', team_data=team_batting_data, team_id=team_id, user_id=user_id)
+    # check if logged in and correct team url
+        if 'email' in login_session and getUserID(login_session['email']) == user_id:
+            team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.yearID == 2015).all()
+            if request.method == "POST":
+                print "Postage!"
+                form_data = request.values
+                ids = form_data.getlist('lahmanID')
+                print ids
+                # loop through players, grab data, commit new objs
+                for lahmanID in ids:
+                    # print lahmanID
+                    batter_obj = session.query(Batting).filter(Batting.lahmanID == lahmanID, Batting.yearID == 2015).one()
+                    batter_obj.G = request.form[lahmanID + "G"]
+                    batter_obj.AB = request.form[lahmanID + "AB"]
+                    batter_obj.H = request.form[lahmanID + "H"]
+                    batter_obj.CS = request.form[lahmanID + "CS"]
+                    batter_obj.IBB = request.form[lahmanID + "IBB"]
+                    batter_obj.R = request.form[lahmanID + "R"]
+                    batter_obj.doubles = request.form[lahmanID + "2B"]
+                    batter_obj.triples = request.form[lahmanID + "3B"]
+                    batter_obj.HR = request.form[lahmanID + "HR"]
+                    batter_obj.RBI = request.form[lahmanID + "RBI"]
+                    batter_obj.SB = request.form[lahmanID + "SB"]
+                    batter_obj.BB = request.form[lahmanID + "BB"]
+                    batter_obj.SO = request.form[lahmanID + "SO"]
+                    batter_obj.HBP = request.form[lahmanID + "HBP"]
+                    batter_obj.GIDP = request.form[lahmanID + "GIDP"]
+                    batter_obj.SH = request.form[lahmanID + "SH"]
+                    batter_obj.SF = request.form[lahmanID + "SF"]
+                    session.add(batter_obj)
+                    session.commit()
+                flash("team updated")
+                return redirect(url_for('teamPage', team_id=team_id, user_id=user_id))
+            else:
+                return render_template('team_edit.html', team_data=team_batting_data, team_id=team_id, user_id=user_id)
+        else:
+            flash("You need to be logged in to use the team edit page")
+            return redirect(url_for('showLogin'))
 
 
 @app.route('/player/<playerID>/edit/<int:user_id>/', methods=['GET', 'POST'])
