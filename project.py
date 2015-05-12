@@ -77,7 +77,7 @@ def teamPage(team_id, user_id):
         flash("suggest you remove user id from the url request")
         # user_id = 1
     # regardless:
-    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
+    team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == 1).all()
     # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
     return render_template('base_team.html', player_data=team_batting_data, team_id=team_id, user_id=user_id)
     # return redirect(url_for('teamPage', team_id=team_id, user_id=1))  # blew up, too many redirects
