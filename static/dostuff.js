@@ -27,10 +27,23 @@ $(document).ready(function(){
 })
 
 function set_team() {
-	//var urlString = window.location.href;
+	var urlString = window.location.href;
 	//var splitter = urlString.indexOf("new/");
 	var teamID = $('#team_id').text()
-	$('#team_sel select').val('/team/' + teamID);
+	// find if url has user_id
+	var url_array = urlString.split('/')
+	// if user_id in url it'll be second last
+	var user_int = parseInt(url_array[url_array.length - 2])
+	console.log(user_int)
+	// if NaN user_int == user_int will return false
+	if (user_int !== user_int) {
+		$('#team_sel select').val('/team/' + teamID);
+	} else {  // there is a user_id
+		$('#team_sel select').val('/team/' + teamID + user_int);
+		console.log('/team/' + teamID + user_int)
+	}
+
+	
 }
 
 function add_ten(x) {
