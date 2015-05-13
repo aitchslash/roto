@@ -59,9 +59,15 @@ def teamPage(team_id, user_id):
         print sess_id
         # if sess_id == user_id:
         print "Correct User"
-        team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
+        # old, sexy working line(s) below
+        # team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).all()
+        # team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).outerjoin(Batting).filter(user_id == Batting.user).all()
+        user_made_ids_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == user_id, Batting.yearID == 2015).subquery()
+        non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == team_id, Batting.yearID == 2015)
+        user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == user_id, Batting.yearID == 2015)
+        team_data = user_data.union(non_overlap_data).all()
         # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
-        return render_template('base_team.html', player_data=team_batting_data, user_id=sess_id, team_id=team_id)
+        return render_template('base_team.html', player_data=team_data, user_id=sess_id, team_id=team_id)
 
     '''
     if 'username' in login_session:
@@ -155,6 +161,7 @@ def newPlayer(team_id, user_id):
             session.add(np_stats)
             try:
                 session.commit()
+                print "committed"
             except exc.SQLAlchemyError as e:
                 print "error",
                 print e
@@ -276,13 +283,35 @@ def editTeam(team_id, user_id):
 def EditPlayer(playerID, user_id):
     # check if logged in and correct team url
     if 'email' in login_session and getUserID(login_session['email']) == user_id:
+        # should combine this into a single query
         player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
         player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
 
         if request.method == "POST":
             print "Posted!!!"
+            # old line
+            # stats2015 = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
 
-            stats2015 = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015).one()
+            # check for existing user created entry
+
+            # if there's already an entry
+            # grab it and alter it
+            #   one() throws an error w/ no result, so we'll use all()
+            q_result = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.yearID == 2015, Batting.user == user_id).all()
+
+            # temporary error checker, all results should be either 0 or 1, this is likely redundant
+            if len(q_result) not in [0, 1]:
+                print "Ooops, check for error here!"
+
+            if len(q_result) == 1:
+                stats2015 = q_result[0]
+                stats2015.user = user_id
+
+            # else make a new object and then alter it.
+            else:
+                stats2015 = Batting(lahmanID=playerID, yearID=2015, user=user_id)
+
+            # stats2015.user = user_id
 
             stats2015.G = request.form['G']
             stats2015.AB = request.form['AB']
