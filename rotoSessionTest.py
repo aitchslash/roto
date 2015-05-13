@@ -1,6 +1,6 @@
 import psycopg2
 from db_setup import Base, Player, Batting, User
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine  # , union
 from sqlalchemy.orm import sessionmaker
 import pickle
 
@@ -18,6 +18,40 @@ def getTeamData(teamID):
     # team_batting_data = session.query(Player.lahmanID, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
     team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
     return team_batting_data
+
+
+def getTeamData2(teamID, user_id):
+    # gets a result, not yet examined.
+    # tbd = session.query(Player, Batting).outerjoin(Batting).filter(user_id != Batting.user).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID).all()
+    # limit to 2015 for examination
+    # tbd = session.query(Player, Batting).outerjoin(Batting).filter(Batting.user == user_id).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
+    # tbd = session.query(Player, Batting).outerjoin(Batting, Batting.user == user_id).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).all()
+    # user_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015).all()
+    # team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == 1, Batting.yearID == 2015).all()
+
+    # ### ENOUGH HERE FOR WORKING KLUDGE ### #
+
+    # all_ids = session.query(Batting.lahmanID, Batting.user).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).filter(or_(Batting.user == user_id, Batting.user == 1)).all()
+    # user_made_ids = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015).all()
+    user_made_ids_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015).subquery()
+    # non_overlap = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).filter(Batting.user == 1).filter(~Batting.lahmanID.in_(user_made_ids)).all()
+    non_overlap_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).filter(Batting.user == 1).filter(~Batting.lahmanID.in_(user_made_ids_sq)).subquery()
+    non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == teamID, Batting.yearID == 2015)  # .all()
+    # non_overlap_data_sq = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == teamID, Batting.yearID == 2015).subquery()
+    user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015)  # .all()
+    team_data = user_data.union(non_overlap_data).all()
+    # tester = session.query(Batting.lahmanID, Batting.user).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).filter((Batting.user == user_id) | ((Batting.user == 1).filter(~Batting.lahmanID.in_(user_made_ids)))).all()
+    # trial = session.query(Batting.lahmanID, Batting.user).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.yearID == 2015).filter(or_(Batting.user == user_id, Batting.user == 1)).all()
+    # perchance = session.query()
+    return user_made_ids_sq, non_overlap_sq, non_overlap_data, user_data, team_data
+
+
+def teamData(teamID, user_id):
+    user_made_ids_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015).subquery()
+    non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == teamID, Batting.yearID == 2015)
+    user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015)  # .all()
+    team_data = user_data.union(non_overlap_data).all()
+    return team_data
 
 
 def getTeamFromPickle(filename):
