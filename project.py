@@ -241,7 +241,13 @@ def deletePlayer(playerID, user_id):
 def editTeam(team_id, user_id):
     # check if logged in and correct team url
         if 'email' in login_session and getUserID(login_session['email']) == user_id:
-            team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.yearID == 2015).all()
+            # old working line below
+            # team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.yearID == 2015).all()
+            # new stuff below
+            user_made_ids_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == user_id, Batting.yearID == 2015).subquery()
+            non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == team_id, Batting.yearID == 2015)
+            user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == user_id, Batting.yearID == 2015)
+            team_batting_data = user_data.union(non_overlap_data).all()
             if request.method == "POST":
                 print "Postage!"
                 form_data = request.values
@@ -307,7 +313,7 @@ def EditPlayer(playerID, user_id):
 
             if len(q_result) == 1:
                 stats2015 = q_result[0]
-                stats2015.user = user_id
+                stats2015.user = user_id  # this line may be redundant
 
             # else make a new object and then alter it.
             else:
