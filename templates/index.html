@@ -1,5 +1,65 @@
 {% extends "base2.html" %}
 {% block content %}
 
+<h1>Projected Leaders for Roto Categories</h1>
+
+<span id="sluggers">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>HR</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entry in hr_leaders %}
+			<tr>
+				<td>{{ entry.Player.name }}</td>
+				<td>{{ entry.Batting.HR }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</span>
+
+<span id="producers">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>RBI</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entry in rbi_leaders %}
+			<tr>
+				<td>{{ entry.Player.name }}</td>
+				<td>{{ entry.Batting.RBI }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</span>
+
+<span id="speedsters">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>SB</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entry in sb_leaders %}
+			<tr>
+				<td>{{ entry.Player.name }}</td>
+				<td>{{ entry.Batting.SB }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</span>
+
+
 
 {% endblock %}

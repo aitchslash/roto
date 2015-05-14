@@ -3,7 +3,7 @@ from flask import (Flask, render_template, url_for, request, redirect,
 app = Flask(__name__)
 
 
-from sqlalchemy import create_engine, exc
+from sqlalchemy import create_engine, exc  # , func
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Player, Batting, User
 import random
@@ -26,7 +26,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-@app.route('/')
+@app.route('/', defaults={'user_id': 1})
 @app.route('/hello')
 @app.route('/index/', defaults={'user_id': 1})
 @app.route('/index/<int:user_id>')
@@ -38,7 +38,12 @@ def HelloWorld(user_id):
         output += "<li>" + row.lahmanID + ":  " + str(row.HR) + " HR</li>"
     return output
     '''
-    return render_template('index.html', user_id=user_id)
+    sluggers = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.HR.desc()).limit(10).all()
+    run_producers = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.RBI.desc()).limit(10).all()
+    steals = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.SB.desc()).limit(10).all()
+    # avg = (Batting.H / Batting.AB)
+    # hitters = session.query(Player, Batting, func(Batting.H / Batting.AB).label("AVG")).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.H).limit(10).all()
+    return render_template('index.html', user_id=user_id, hr_leaders=sluggers, rbi_leaders=run_producers, sb_leaders=steals)  # , hitters=hitters)
 
 
 @app.route('/team/<team_id>/', defaults={'user_id': 1})
