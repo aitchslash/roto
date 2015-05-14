@@ -42,8 +42,6 @@ function set_team() {
 		$('#team_sel select').val('/team/' + teamID + user_int);
 		console.log('/team/' + teamID + user_int)
 	}
-
-	
 }
 
 function add_ten(x) {
