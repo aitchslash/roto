@@ -302,6 +302,8 @@ def EditPlayer(playerID, user_id):
             # temporary error checker, all results should be either 0 or 1, this is likely redundant
             if len(q_result) not in [0, 1]:
                 print "Ooops, check for error here!"
+                # not sure if this redirect is the best option
+                return redirect(url_for('errorPage', error="oops in EditPlayer"))
 
             if len(q_result) == 1:
                 stats2015 = q_result[0]
