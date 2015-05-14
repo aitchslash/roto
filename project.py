@@ -114,7 +114,7 @@ def PlayerPage(playerID, user_id):
 # using "09" as a kluge suffix to enable id generation w/o access to lahman db
 # could try to access - catch: use suffix
 # other error handling might be cool too
-@app.route('/player/new/<team_id>/<int:user_id>', methods=['GET', 'POST'])
+@app.route('/player/new/<team_id>/<int:user_id>/', methods=['GET', 'POST'])
 def newPlayer(team_id, user_id):
     # check to make sure it's a valid user AND user email lines up with ID
     if 'email' in login_session and getUserID(login_session['email']) == user_id:
