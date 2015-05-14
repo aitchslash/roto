@@ -49,7 +49,7 @@ def getTeamData2(teamID, user_id):
 def teamData(teamID, user_id):
     user_made_ids_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015).subquery()
     non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == teamID, Batting.yearID == 2015)
-    user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015)  # .all()
+    user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == teamID, Batting.user == user_id, Batting.yearID == 2015)
     team_data = user_data.union(non_overlap_data).all()
     return team_data
 
