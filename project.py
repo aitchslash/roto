@@ -50,6 +50,13 @@ def teamPage(team_id, user_id):
     print user_id
     # if 'email' in login_session:  # old line
 
+    # test stuff
+    if 'email' in login_session:
+        sess_id = getUserID(login_session['email'])
+        print "session id: ",
+        print sess_id
+        user_id = sess_id
+
     # check to make sure it's a valid user AND user email lines up with ID
     if 'email' in login_session and getUserID(login_session['email']) == user_id:
         # prints for login testing
