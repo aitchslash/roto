@@ -504,6 +504,7 @@ def gdisconnect():
 
         response = make_response(json.dumps('Successfully disconnected'), 200)
         response.headers['Content-Type'] = 'application/json'
+        flash("Successfully disconnected from Google")
         return response
     else:
         response = make_response(json.dumps('Failed to revoke token'), 400)
@@ -601,6 +602,7 @@ def fbdisconnect():
     del login_session['facebook_id']
     del login_session['picture']
     print "fb logged out"
+    flash("Successfully logged out from Facebook")
     return "you have been logged out"
 
 
