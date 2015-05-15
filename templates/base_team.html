@@ -1,5 +1,14 @@
 {% extends "base2.html" %}
 {% block content %}
+	{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			<ul>
+				{% for message in messages%}
+					<li><strong>{{ message }}</strong></li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		{% endwith %}
 <div class="button" id="career_toggle">show/hide career #'s</div>
 <div class="button" id="avg162_toggle">show/hide 162g avg</div>
 <table id="teamtable">
