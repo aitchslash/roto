@@ -59,6 +59,24 @@
 		</tbody>
 	</table>
 </span>
+<span id="average">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>AVG</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entry in avg_leaders %}
+			<tr>
+				<td>{{ entry[0] }}</td>
+				<td>.{{ entry[1] }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</span>
 
 
 
