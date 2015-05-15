@@ -55,6 +55,14 @@
 		</form>
 		<span id="team_go" class="button">GO to Team</span>
 		</span>
+		<div id="login_logout">
+			{% if user_id > 1 %}
+				<a href="{{ url_for('disconnect')}}">Logout</a>
+			{% elif user_id == 1 %}
+				<a href="{{ url_for('showLogin')}}">Login</a>
+			{% else %}
+				login problem
+			{% endif %}
 		<hr>
 
 		{% with messages = get_flashed_messages() %}
