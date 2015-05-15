@@ -12,6 +12,13 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+def getAvg():
+    avg = (Batting.H * 1000 / Batting.AB)
+    # result = session.query(Batting.lahmanID, avg).filter(Batting.yearID == 2015, Batting.AB > 400).order_by(avg.desc()).limit(20).all()
+    result = session.query(Player.name, avg).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.AB > 400).order_by(avg.desc()).limit(20).all()
+    return result
+
+
 # ## testing team page query ###
 def getTeamData(teamID):
     # old working line but want name/age/etc.
