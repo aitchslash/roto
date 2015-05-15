@@ -667,10 +667,10 @@ def disconnect():
             fbdisconnect()
         else:
             print "unknown provider"
-        return render_template('/index.html', user_id=1)
+        return redirect(url_for('HelloWorld'))
     else:
         flash("No login found")
-        return render_template('/index.html', user_id=1)
+        return redirect(url_for('HelloWorld'))
 
 
 # hard login reset
