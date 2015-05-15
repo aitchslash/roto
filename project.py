@@ -41,9 +41,9 @@ def HelloWorld(user_id):
     sluggers = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.HR.desc()).limit(10).all()
     run_producers = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.RBI.desc()).limit(10).all()
     steals = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.SB.desc()).limit(10).all()
-    # avg = (Batting.H / Batting.AB)
-    # hitters = session.query(Player, Batting, func(Batting.H / Batting.AB).label("AVG")).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.user == 1).order_by(Batting.H).limit(10).all()
-    return render_template('index.html', user_id=user_id, hr_leaders=sluggers, rbi_leaders=run_producers, sb_leaders=steals)  # , hitters=hitters)
+    avg = (Batting.H * 1000 / Batting.AB)
+    average = session.query(Player.name, avg).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Batting.yearID == 2015, Batting.AB > 400).order_by(avg.desc()).limit(10).all()
+    return render_template('index.html', user_id=user_id, hr_leaders=sluggers, rbi_leaders=run_producers, sb_leaders=steals, avg_leaders=average)
 
 
 @app.route('/team/<team_id>/', defaults={'user_id': 1})
