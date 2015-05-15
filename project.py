@@ -230,7 +230,7 @@ def deletePlayer(playerID, user_id):
     if 'email' in login_session and getUserID(login_session['email']) == user_id:
         # might want to convert the two queries to one
         player_data = session.query(Player).filter(Player.lahmanID == playerID).one()
-        player_stats = session.query(Batting).filter(Batting.lahmanID == playerID).all()
+        player_stats = session.query(Batting).filter(Batting.lahmanID == playerID, Batting.user == user_id).all()
         team_id = player_data.teamID
         print team_id
         if request.method == "POST":
