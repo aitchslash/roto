@@ -76,8 +76,14 @@ def teamPage(team_id, user_id):
         # team_batting_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id).outerjoin(Batting).filter(user_id == Batting.user).all()
         user_made_ids_sq = session.query(Batting.lahmanID).join(Player).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == user_id, Batting.yearID == 2015).subquery()
         non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == team_id, Batting.yearID == 2015)
+        old_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.yearID != 2015)
+        '''
+        non_overlap_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(~Batting.lahmanID.in_(user_made_ids_sq)).filter(Player.teamID == team_id, Batting.yearID == 2015).\
+            join(Batting).filter(Player.lahmanID == Batting.lahmanID).filter(Player.teamID == team_id, Batting.yearID != 2015, Batting.user == 1)
+        '''
         user_data = session.query(Player, Batting).join(Batting).filter(Player.lahmanID == Batting.lahmanID, Player.teamID == team_id, Batting.user == user_id, Batting.yearID == 2015)
-        team_data = user_data.union(non_overlap_data).all()
+        # team_data = user_data.union(non_overlap_data).all()  # working line for 2015 but doesn't incorporate older stats
+        team_data = user_data.union(non_overlap_data.union(old_data)).all()
         # return render_template('base_team.html', player_data=team_batting_data, user_id=user_id, team_id=team_id)
         return render_template('base_team.html', player_data=team_data, user_id=sess_id, team_id=team_id)
 
